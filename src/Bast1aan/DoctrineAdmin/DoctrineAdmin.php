@@ -1,7 +1,7 @@
 <?php
 /*
  * Doctrine Admin
- * Copyright (C) 2013 Bastiaan Welmers, haasje@welmers.net
+ * Copyright (C) 2013 Bastiaan Welmers, bastiaan@welmers.net
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
