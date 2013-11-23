@@ -1,0 +1,12 @@
+{
+	"name": "bast1aan/doctrine-admin",
+	"require": {
+		"php": ">=5.3.2",
+		"doctrine/common": ">=2.3",
+		"doctrine/orm": ">=2.3"
+	},
+	"version": "0.1",
+	"autoload": {
+		"psr-0": { "Bast1aan\\DoctrineAdmin": "src/" }
+	}
+}
