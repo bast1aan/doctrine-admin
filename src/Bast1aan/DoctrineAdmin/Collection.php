@@ -64,7 +64,7 @@ namespace Bast1aan\DoctrineAdmin {
 		 * @return Entity
 		 */
 		public function offsetGet($offset) {
-			return new Entity($this->collection[$offset], $this->doctrineAdmin);
+			return Entity::factory($this->collection[$offset], $this->doctrineAdmin);
 		}
 
 		/**
@@ -89,7 +89,7 @@ namespace Bast1aan\DoctrineAdmin {
 		 * @return Entity
 		 */
 		public function current() {
-			return new Entity($this->collection[$this->i], $this->doctrineAdmin);
+			return Entity::factory($this->collection[$this->i], $this->doctrineAdmin);
 		}
 
 		public function key() {

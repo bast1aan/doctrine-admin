@@ -52,7 +52,7 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 		
 		public function current() {
-			return new Entity($this->value[$this->i], $this->doctrineAdmin);
+			return Entity::factory($this->value[$this->i], $this->doctrineAdmin);
 		}
 
 		public function key() {
