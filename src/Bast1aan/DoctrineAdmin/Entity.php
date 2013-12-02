@@ -65,10 +65,7 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 		
 		public function offsetExists($offset) {
-			if (in_array($offset, $this->fieldNames) || in_array($offset, $this->associationNames))
-				return true;
-			else
-				return false;
+			return in_array($offset, $this->fieldNames) || in_array($offset, $this->associationNames);
 		}
 
 		public function offsetGet($offset) {
