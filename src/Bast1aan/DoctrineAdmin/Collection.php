@@ -33,6 +33,10 @@ namespace Bast1aan\DoctrineAdmin {
 		 */
 		private $collection;
 		
+		/**
+		 *
+		 * @var DoctrineAdmin
+		 */
 		private $doctrineAdmin;
 		
 		/**
