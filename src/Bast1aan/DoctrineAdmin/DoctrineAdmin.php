@@ -31,13 +31,18 @@ namespace Bast1aan\DoctrineAdmin {
 		private $em;
 		
 		/**
+		 * @var Config
+		 */
+		private $config;
+		
+		/**
 		 * @var string
 		 */
 		private $entityName;
 		
-		public function __construct(EntityManager $em) {
+		public function __construct(EntityManager $em, Config $config = null) {
 			$this->em = $em;
-			
+			$this->config = $config;
 			
 			
 			
@@ -50,6 +55,21 @@ namespace Bast1aan\DoctrineAdmin {
 			 */
 		}
 		
+		/**
+		 * @return Config
+		 */
+		public function getConfig() {
+			return $this->config;
+		}
+
+		/**
+		 * @param Config $config
+		 */
+		public function setConfig(Config $config) {
+			$this->config = $config;
+		}
+
+				
 		/**
 		 * @param string $entityName
 		 * @return Collection|Entity[]
