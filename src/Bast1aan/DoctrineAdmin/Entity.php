@@ -46,11 +46,35 @@ namespace Bast1aan\DoctrineAdmin {
 		 * @var DoctrineAdmin
 		 */
 		private $doctrineAdmin;
-				
-		public function __construct($entity, DoctrineAdmin $doctrineAdmin) {
+		
+		/**
+		 * 
+		 * @param Config $config
+		 * @param DoctrineAdmin $da
+		 * @return Entity
+		 */
+		public static function factory($entity, DoctrineAdmin $da) {
+			$config = $da->getConfig();
+			if ($config != null) {
+				$daEntity = $config->getDoctrineAdminEntityByNativeEntity($entity);
+			}
+			if ($daEntity == null) {
+				$daEntity = new Entity($entity);
+			}
+			$daEntity->setDoctrineAdmin($da);
+			return $daEntity;
+		}
+		
+		public function __construct($entity, DoctrineAdmin $doctrineAdmin = null) {
 			$this->entity = $entity;
+			if ($doctrineAdmin != null) {
+				$this->setDoctrineAdmin($doctrineAdmin);
+			}
+		}
+		
+		public function setDoctrineAdmin(DoctrineAdmin $doctrineAdmin) {
 			$this->doctrineAdmin = $doctrineAdmin;
-			$this->classMetaData = $doctrineAdmin->getEntityManager()->getClassMetadata(get_class($entity));
+			$this->classMetaData = $doctrineAdmin->getEntityManager()->getClassMetadata(get_class($this->entity));
 			$this->fieldNames = $this->classMetaData->getFieldNames();
 			$this->associationNames = $this->classMetaData->getAssociationNames();
 			$this->identifierNames = $this->classMetaData->getIdentifierFieldNames();
