@@ -21,8 +21,15 @@
 namespace Bast1aan\DoctrineAdmin {
 	class AssociationProperty extends AbstractProperty {
 		public function __toString() {
-			$entity = Entity::factory($this->getValue(), $this->doctrineAdmin);
-			return (string) $entity;
+			return (string) $this->getAsEntity();
+		}
+		
+		/**
+		 * 
+		 * @return Entity
+		 */
+		public function getAsEntity() {
+			return Entity::factory($this->getValue(), $this->doctrineAdmin);
 		}
 	}
 }
