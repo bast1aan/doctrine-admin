@@ -70,7 +70,32 @@ namespace Bast1aan\DoctrineAdmin {
 		public function valid() {
 			return isset($this->value[$this->i]);
 		}
-
-	
+		
+		/**
+		 * @param Entity|object $entity
+		 */
+		public function add($entity) {
+			if ($entity instanceof Entity) {
+				$this->value[] = $entity->getOriginalEntity();
+			} else {
+				$this->value[] = $entity;
+			}
+		}
+		
+		public function empty() {
+			$this->value = array();
+		}
+		
+		/**
+		 * @param Entity|object $entity
+		 */
+		public function remove($entity) {
+			foreach($this->value as $key => $item) {
+				if ($item == $entity) {
+					unset($this->value[$key]);
+					return;
+				}
+			}
+		}
 	}
 }
