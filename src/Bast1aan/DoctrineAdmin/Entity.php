@@ -139,6 +139,16 @@ namespace Bast1aan\DoctrineAdmin {
 			// TODO make better
 			return get_class($this->entity) . '_' . implode('-', $this->classMetaData->getIdentifierValues($this->entity));
 		}
+		
+		public function save() {
+			$em = $this->doctrineAdmin->getEntityManager();
+			$em->flush($this->entity);
+		}
+		
+		public function delete() {
+			$em = $this->doctrineAdmin->getEntityManager();
+			$em->remove($this->entity);
+		}
 
 	}
 }
