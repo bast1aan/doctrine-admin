@@ -82,7 +82,7 @@ namespace Bast1aan\DoctrineAdmin {
 			}
 		}
 		
-		public function isEmpty() {
+		public function clear() {
 			$this->value = array();
 		}
 		
