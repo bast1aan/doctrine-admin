@@ -174,7 +174,12 @@ namespace Bast1aan\DoctrineAdmin {
 		 * @return string
 		 */
 		public function getIdAsStr() {
-			return implode('-', $this->classMetaData->getIdentifierValues($this->entity));
+			$idValues = array();
+			// escape the - so it won't be recognized as a compound separator
+			foreach($this->classMetaData->getIdentifierValues($this->entity) as $idValue)
+				$idValues[] = str_replace('-', '--', $idValue);
+			
+			return implode('-', $idValues);
 		}
 		
 		public function __toString() {
