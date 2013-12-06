@@ -61,7 +61,7 @@ namespace Bast1aan\DoctrineAdmin {
 		
 		/**
 		 * 
-		 * @param Config $config
+		 * @param object $entity
 		 * @param DoctrineAdmin $da
 		 * @return Entity
 		 */
