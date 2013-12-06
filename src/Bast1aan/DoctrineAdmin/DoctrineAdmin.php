@@ -88,5 +88,34 @@ namespace Bast1aan\DoctrineAdmin {
 		public function getEntityManager() {
 			return $this->em;
 		}
+		
+		/**
+		 * Find an entity by entity name and entity ID. entity ID is a
+		 * string as provided from Entity::getIdAsStr()
+		 * 
+		 * @param string $entityName
+		 * @param string $entityId
+		 * @return Entity
+		 * @throws Exception
+		 */
+		public function find($entityName, $entityId) {
+			$classMetaData = $this->em->getClassMetadata($entityName);
+			
+			$idNames = $classMetaData->getIdentifierFieldNames();
+			
+			$idValues = explode('-', $entityId);
+			
+			if (count($idNames) != count($idValues)) {
+				throw new Exception('Primary key values don\'t match amount of primary key fields');
+			}
+			
+			$id = array();
+			for($i = 0; $i < count($idNames); ++$i)
+				$id[$idNames[$i]] = str_replace('--', '-', $idValues[$i]);
+			
+			$entityObj = $this->em->find($entityName, $id);
+			
+			return Entity::factory($entityObj, $this);
+		}
 	}
 }
