@@ -36,10 +36,22 @@ namespace Bast1aan\DoctrineAdmin {
 		 */
 		private $classMetaData;
 		
+		/**
+		 *
+		 * @var string[]
+		 */
 		private $fieldNames;
 		
+		/**
+		 *
+		 * @var string[]
+		 */
 		private $associationNames;
 		
+		/**
+		 *
+		 * @var string[]
+		 */
 		private $identifierNames;
 		
 		/**
@@ -80,12 +92,25 @@ namespace Bast1aan\DoctrineAdmin {
 			$this->identifierNames = $this->classMetaData->getIdentifierFieldNames();
 		}
 		
+		/**
+		 * @return string[]
+		 */
 		public function getAssociationNames() {
 			return $this->associationNames;
 		}
 		
+		/**
+		 * @return string[]
+		 */
 		public function getFieldNames() {
 			return $this->fieldNames;
+		}
+		
+		/**
+		 * @return string[]
+		 */
+		public function getIdentifierNames() {
+			return $this->identifierNames;
 		}
 		
 		public function offsetExists($offset) {
