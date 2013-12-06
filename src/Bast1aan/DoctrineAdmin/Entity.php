@@ -21,7 +21,7 @@
 
 namespace Bast1aan\DoctrineAdmin {
 	
-	use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+	use Doctrine\ORM\Mapping\ClassMetadata;
 	use Bast1aan\DoctrineAdmin\View\Form;
 	use ArrayAccess;
 	use Countable;
