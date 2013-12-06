@@ -191,6 +191,13 @@ namespace Bast1aan\DoctrineAdmin {
 			$em = $this->doctrineAdmin->getEntityManager();
 			$em->remove($this->entity);
 		}
+		
+		/**
+		 * @return DoctrineAdmin
+		 */
+		public function getDoctrineAdmin() {
+			return $this->doctrineAdmin;
+		}
 
 	}
 }
