@@ -135,13 +135,14 @@ namespace Bast1aan\DoctrineAdmin {
 				$type = $this->classMetaData->getTypeOfField($offset);
 				if (in_array($offset, $this->fieldNames)) {
 					return new ScalarProperty($offset, $value, $type, $this->doctrineAdmin);
-				} elseif (is_array($value) || $value instanceof Countable) {
-					return new CollectionAssociationProperty($offset, $value, $type, $this->doctrineAdmin);
-				} else {
-						//				print $value instanceof Countable;
-					return new AssociationProperty($offset, $value, $type, $this->doctrineAdmin);
+				} elseif (in_array($offset, $this->associationNames)) {
+					$targetEntityName = $this->classMetaData->getAssociationTargetClass($offset);
+					if ($this->classMetaData->isCollectionValuedAssociation($offset)) {
+						return new CollectionAssociationProperty($offset, $value, $targetEntityName, $this->doctrineAdmin);
+					} elseif($this->classMetaData->isSingleValuedAssociation($offset)) {
+						return new AssociationProperty($offset, $value, $targetEntityName, $this->doctrineAdmin);
+					}
 				}
-				
 			}
 		}
 		
