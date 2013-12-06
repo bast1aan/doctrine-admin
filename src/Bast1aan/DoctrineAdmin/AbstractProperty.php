@@ -48,6 +48,10 @@ namespace Bast1aan\DoctrineAdmin {
 			return $this->value;
 		}
 		
+		public function setValue($value) {
+			$this->value = $value;
+		}
+		
 		public function getType() {
 			return $this->type;
 		}
