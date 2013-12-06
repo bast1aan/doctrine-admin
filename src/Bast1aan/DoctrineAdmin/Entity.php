@@ -170,9 +170,16 @@ namespace Bast1aan\DoctrineAdmin {
 			return $this->entity;
 		}
 		
+		/**
+		 * @return string
+		 */
+		public function getIdAsStr() {
+			return implode('-', $this->classMetaData->getIdentifierValues($this->entity));
+		}
+		
 		public function __toString() {
 			// TODO make better
-			return get_class($this->entity) . '_' . implode('-', $this->classMetaData->getIdentifierValues($this->entity));
+			return get_class($this->entity) . '_' . $this->getIdAsStr();
 		}
 		
 		public function save() {
