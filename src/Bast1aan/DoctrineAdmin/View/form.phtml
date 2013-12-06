@@ -1,0 +1,28 @@
+<?php
+use Bast1aan\DoctrineAdmin; 
+$entity = $this->getEntity();
+if ($entity instanceof DoctrineAdmin\Entity):
+?>
+<table>
+<?php foreach($entity->getFieldNames() as $fieldName): ?>
+	<tr><th><?php echo $fieldName ?></th><td><input type="text" name="<?php print $fieldName ?>" value="<?php echo $entity->getColumn($fieldName) ?>" /></td></tr>
+<?php endforeach ?>
+<?php foreach($entity->getAssociationNames() as $name): 
+	$column = $entity->getColumn($name);
+	if ($column instanceof DoctrineAdmin\CollectionAssociationProperty):
+	?>
+	<tr><th><?php echo $name ?></th><td><select multiple="multiple">
+	<?php foreach($column as $assocEntity): ?>
+		<option name="<?php print $name ?>[]" value="<?php print $assocEntity->getIdAsStr() ?>" selected="selected"><?php print $assocEntity ?></option>
+	<?php endforeach ?>
+			</select><br />
+			New: <input type="text" name="<?php print $name ?>[]" value="" />
+		</td></tr>
+	<?php elseif($column instanceof DoctrineAdmin\AssociationProperty):
+		$columnEntity = $column->getAsEntity() ?>
+	<tr><th><?php echo $name ?></th><td><?php print $columnEntity ?> <input type="text" name="<?php print $name ?>" value="<?php print $columnEntity->getIdAsStr() ?>" /></td></tr>
+	<?php endif ?>
+<?php endforeach ?>
+
+</table>
+<?php endif ?>
