@@ -22,6 +22,7 @@
 namespace Bast1aan\DoctrineAdmin {
 	
 	use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+	use Bast1aan\DoctrineAdmin\View\Form;
 	use ArrayAccess;
 	use Countable;
 	
@@ -202,6 +203,13 @@ namespace Bast1aan\DoctrineAdmin {
 		 */
 		public function getDoctrineAdmin() {
 			return $this->doctrineAdmin;
+		}
+		
+		/**
+		 * @return Form
+		 */
+		public function getForm() {
+			return new Form($this);
 		}
 
 	}
