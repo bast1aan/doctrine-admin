@@ -31,5 +31,16 @@ namespace Bast1aan\DoctrineAdmin {
 				return (string) $value;
 			}
 		}
+		
+		public function setValueFromString($string) {
+			switch($this->getType()) {
+				case 'date':
+				case 'datetime':
+					$this->setValue(new DateTime($string));
+					break;
+				default:
+					$this->setValue($string);
+			}
+		}
 	}
 }
