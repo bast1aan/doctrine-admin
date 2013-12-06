@@ -41,6 +41,12 @@ namespace Bast1aan\DoctrineAdmin {
 		private $type;
 		
 		/**
+		 * Length of the database field
+		 * @var integer
+		 */
+		private $length;
+		
+		/**
 		 * @var DoctrineAdmin
 		 */
 		protected $doctrineAdmin;
@@ -50,12 +56,14 @@ namespace Bast1aan\DoctrineAdmin {
 		 * @param string $name
 		 * @param mixed $value
 		 * @param string $type
+		 * @param int $length
 		 * @param DoctrineAdmin $doctrineAdmin
 		 */
-		public function __construct($name, $value, $type, DoctrineAdmin $doctrineAdmin) {
+		public function __construct($name, $value, $type, $length, DoctrineAdmin $doctrineAdmin) {
 			$this->name = $name;
 			$this->value = $value;
 			$this->type = $type;
+			$this->length = $length;
 			$this->doctrineAdmin = $doctrineAdmin;
 		}
 		
@@ -77,6 +85,10 @@ namespace Bast1aan\DoctrineAdmin {
 		
 		public function getType() {
 			return $this->type;
+		}
+		
+		public function getLength() {
+			return $this->length;
 		}
 		
 		public function isNull() {

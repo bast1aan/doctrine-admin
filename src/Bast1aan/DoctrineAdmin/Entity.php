@@ -132,9 +132,10 @@ namespace Bast1aan\DoctrineAdmin {
 				$prop = $clazz->getProperty($offset);
 				$prop->setAccessible(true);
 				$value = $prop->getValue($this->entity);
-				$type = $this->classMetaData->getTypeOfField($offset);
 				if (in_array($offset, $this->fieldNames)) {
-					return new ScalarProperty($offset, $value, $type, $this->doctrineAdmin);
+					$type = $this->classMetaData->getTypeOfField($offset);
+					$fieldMapping = $this->classMetaData->getFieldMapping($offset);
+					return new ScalarProperty($offset, $value, $fieldMapping['type'], $fieldMapping['length'], $this->doctrineAdmin);
 				} elseif (in_array($offset, $this->associationNames)) {
 					$targetEntityName = $this->classMetaData->getAssociationTargetClass($offset);
 					if ($this->classMetaData->isCollectionValuedAssociation($offset)) {
