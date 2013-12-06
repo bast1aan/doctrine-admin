@@ -95,7 +95,7 @@ namespace Bast1aan\DoctrineAdmin {
 		
 		/**
 		 * 
-		 * @obsolete
+		 * @deprecated
 		 */
 		public function __toString() {
 			return (string) $this->getAsEntity();
@@ -104,7 +104,7 @@ namespace Bast1aan\DoctrineAdmin {
 		/**
 		 * 
 		 * @return Entity
-		 * @obsolete
+		 * @deprecated
 		 */
 		public function getAsEntity() {
 			return $this->getValue();
