@@ -20,7 +20,69 @@
 
 namespace Bast1aan\DoctrineAdmin {
 	use DateTime;
-	class ScalarProperty extends AbstractProperty {
+	class ScalarProperty implements Property {
+		
+		/**
+		 * Name of the property.
+		 * @var string
+		 */
+		private $name;
+		
+		/**
+		 * Value of the property
+		 * @var mixed 
+		 */
+		private $value;
+		
+		/**
+		 * One of the doctrine types found in class constants of @see \Doctrine\DBAL\Types\Type
+		 * @var string
+		 */
+		private $type;
+		
+		/**
+		 * @var DoctrineAdmin
+		 */
+		protected $doctrineAdmin;
+		
+		/**
+		 * 
+		 * @param string $name
+		 * @param mixed $value
+		 * @param string $type
+		 * @param DoctrineAdmin $doctrineAdmin
+		 */
+		public function __construct($name, $value, $type, DoctrineAdmin $doctrineAdmin) {
+			$this->name = $name;
+			$this->value = $value;
+			$this->type = $type;
+			$this->doctrineAdmin = $doctrineAdmin;
+		}
+		
+		public function __getString() {
+			return (string) $this->getValue();
+		}
+
+		public function getName() {
+			return $this->name;
+		}
+
+		public function getValue() {
+			return $this->value;
+		}
+		
+		public function setValue($value) {
+			$this->value = $value;
+		}
+		
+		public function getType() {
+			return $this->type;
+		}
+		
+		public function isNull() {
+			return $this->value === null;
+		}
+		
 		public function __toString() {
 			$value = $this->getValue();
 			if ($value instanceof DateTime) {

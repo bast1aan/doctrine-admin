@@ -23,12 +23,12 @@ namespace Bast1aan\DoctrineAdmin {
 	use Iterator;
 	use Doctrine\Common\Collections\Collection as DoctrineCollection;
 	
-	class CollectionAssociationProperty extends AbstractProperty implements Iterator, Countable {
+	class CollectionAssociationProperty extends AssociationProperty implements Property, Iterator, Countable {
 		
 		/**
 		 * @var array
 		 */
-		private $value;
+		private $targetEntities;
 		
 		/**
 		 *
@@ -36,23 +36,32 @@ namespace Bast1aan\DoctrineAdmin {
 		 */
 		private $i;
 		
-		public function __construct($name, $value, $type, DoctrineAdmin $doctrineAdmin) {
-			parent::__construct($name, $value, $type, $doctrineAdmin);
-			if (is_array($value)) {
-				$this->value = $value;
-			} elseif ($value instanceof DoctrineCollection) {
-				$this->value = $value->toArray();
+		/**
+		 * 
+		 * @param string $name
+		 * @param Collection|array $values
+		 * @param string $entityName
+		 * @param DoctrineAdmin $doctrineAdmin
+		 * @throws Exception
+		 */
+		public function __construct($name, $values, $entityName, DoctrineAdmin $doctrineAdmin) {
+			if (is_array($values)) {
+				$this->targetEntities = $values;
+			} elseif ($values instanceof DoctrineCollection) {
+				$this->targetEntities = $values->toArray();
 			} else {
 				return new Exception('Collection property value not an instance of Doctrine\Common\Collections\Collection and not an array');
 			}
+			parent::__construct($name, count($values) > 0 ? $values[0] : null, $entityName, $doctrineAdmin);
+
 		}
 		
 		public function count() {
-			count($this->value);
+			count($this->targetEntities);
 		}
 		
 		public function current() {
-			return Entity::factory($this->value[$this->i], $this->doctrineAdmin);
+			return Entity::factory($this->targetEntities[$this->i], $this->doctrineAdmin);
 		}
 
 		public function key() {
@@ -68,7 +77,7 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 
 		public function valid() {
-			return isset($this->value[$this->i]);
+			return isset($this->targetEntities[$this->i]);
 		}
 		
 		/**
@@ -76,23 +85,23 @@ namespace Bast1aan\DoctrineAdmin {
 		 */
 		public function add($entity) {
 			if ($entity instanceof Entity) {
-				$this->value[] = $entity->getOriginalEntity();
+				$this->targetEntities[] = $entity->getOriginalEntity();
 			} else {
-				$this->value[] = $entity;
+				$this->targetEntities[] = $entity;
 			}
 		}
 		
 		public function clear() {
-			$this->value = array();
+			$this->targetEntities = array();
 		}
 		
 		/**
 		 * @param Entity|object $entity
 		 */
 		public function remove($entity) {
-			foreach($this->value as $key => $item) {
+			foreach($this->targetEntities as $key => $item) {
 				if ($item == $entity) {
-					unset($this->value[$key]);
+					unset($this->targetEntities[$key]);
 					return;
 				}
 			}

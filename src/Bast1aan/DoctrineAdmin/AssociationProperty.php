@@ -19,7 +19,84 @@
  */
 
 namespace Bast1aan\DoctrineAdmin {
-	class AssociationProperty extends AbstractProperty {
+	class AssociationProperty implements Property {
+		
+		/**
+		 *
+		 * @var name of the association
+		 */
+		private $name;
+		
+		/**
+		 *
+		 * @var object target entity
+		 */
+		private $value;
+		
+		/**
+		 * Classname of the entity of the association
+		 * @var string 
+		 */
+		private $entityName;
+		
+		/**
+		 * @var DoctrineAdmin
+		 */
+		protected $doctrineAdmin;
+		
+		/**
+		 * 
+		 * @param string $name
+		 * @param object $value
+		 * @param string $entityName
+		 * @param DoctrineAdmin $doctrineAdmin
+		 */
+		public function __construct($name, $value, $entityName, DoctrineAdmin $doctrineAdmin) {
+			$this->name = $name;
+			$this->value = $value;
+			$this->entityName = $entityName;
+			$this->doctrineAdmin = $doctrineAdmin;
+		}
+
+		/**
+		 * @return string
+		 */
+		public function getName() {
+			return $this->name;
+		}
+
+		/**
+		 * @return Entity
+		 */
+		public function getValue() {
+			if ($this->value != null)
+				return Entity::factory($this->value, $this->doctrineAdmin);
+		}
+		
+		/**
+		 * @param Entity|object $value the entity
+		 */
+		public function setValue($value) {
+			if ($value instanceof Entity)
+				$this->value = $value->getOriginalEntity();
+			else
+				$this->value = $value;
+		}
+		
+		
+		public function getEntityName() {
+			return $this->entityName;
+		}
+		
+		public function isNull() {
+			return $this->value === null;
+		}
+
+		
+		/**
+		 * 
+		 * @obsolete
+		 */
 		public function __toString() {
 			return (string) $this->getAsEntity();
 		}
@@ -27,9 +104,10 @@ namespace Bast1aan\DoctrineAdmin {
 		/**
 		 * 
 		 * @return Entity
+		 * @obsolete
 		 */
 		public function getAsEntity() {
-			return Entity::factory($this->getValue(), $this->doctrineAdmin);
+			return $this->getValue();
 		}
 	}
 }
