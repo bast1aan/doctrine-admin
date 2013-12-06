@@ -144,6 +144,16 @@ namespace Bast1aan\DoctrineAdmin {
 			}
 		}
 		
+		public function setColumn(Property $property) {
+			$offset = $property->getName();
+			if ($this->offsetExists($offset)) {
+				$clazz = $this->classMetaData->getReflectionClass();
+				$prop = $clazz->getProperty($offset);
+				$prop->setAccessible(true);
+				$prop->setValue($this->entity, $property->getValue());
+			}
+		}
+		
 		public function offsetSet($offset, $value) {
 			
 		}
