@@ -123,7 +123,7 @@ namespace Bast1aan\DoctrineAdmin {
 		
 		/**
 		 * @param string $columnName
-		 * @return Column
+		 * @return Property
 		 */
 		public function getColumn($offset) {
 			if ($this->offsetExists($offset)) {
