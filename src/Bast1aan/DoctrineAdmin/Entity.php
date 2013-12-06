@@ -22,7 +22,7 @@
 namespace Bast1aan\DoctrineAdmin {
 	
 	use Doctrine\ORM\Mapping\ClassMetadata;
-	use Bast1aan\DoctrineAdmin\View\Form;
+	use Bast1aan\DoctrineAdmin\View\View;
 	use ArrayAccess;
 	use Countable;
 	
@@ -208,10 +208,10 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 		
 		/**
-		 * @return Form
+		 * @return View
 		 */
-		public function getForm() {
-			return new Form($this);
+		public function getView() {
+			return new View($this);
 		}
 
 	}

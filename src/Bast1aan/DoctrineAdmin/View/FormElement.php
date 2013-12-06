@@ -18,10 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-$entity = $this->getEntity();
-?>
-<table class="doctrine_admin_form">
-<?php foreach(array_merge($entity->getFieldNames(), $entity->getAssociationNames()) as $fieldName): ?>
-	<tr><th><?php echo $fieldName ?></th><td><?php echo $this->getFormElement($fieldName); ?></td></tr>
-<?php endforeach ?>
-</table>
+namespace Bast1aan\DoctrineAdmin\View {
+	interface FormElement {
+		/**
+		 * @return string
+		 */
+		function render();
+		
+		function __toString();
+	}
+}

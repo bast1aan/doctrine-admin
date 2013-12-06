@@ -23,12 +23,12 @@ namespace Bast1aan\DoctrineAdmin\View {
 	class Form {
 		
 		/**
-		 * @var DoctrineAdmin\Entity
+		 * @var View
 		 */
-		private $entity;
+		private $view;
 		
-		public function __construct(DoctrineAdmin\Entity $entity) {
-			$this->entity = $entity;
+		public function __construct(View $view) {
+			$this->view = $view;
 		}
 		
 		protected function getTemplate() {
@@ -51,9 +51,17 @@ namespace Bast1aan\DoctrineAdmin\View {
 		/**
 		 * 
 		 * @return DoctrineAdmin\Entity
+		 * @deprecated
 		 */
 		public function getEntity() {
-			return $this->entity;
+			return $this->view->getEntity();
+		}
+		
+		/**
+		 * @return View
+		 */
+		public function getView() {
+			return $this->view;
 		}
 		
 		/**
@@ -90,6 +98,15 @@ namespace Bast1aan\DoctrineAdmin\View {
 					}
 				}
 			}
+		}
+		
+		/**
+		 * @return FormElement
+		 * @param string $elementName
+		 */
+		public function getFormElement($elementName) {
+			$property = $this->view->getEntity()->getColumn($elementName);
+			return $this->view->getFormElement($property, $this);
 		}
 	}
 }
