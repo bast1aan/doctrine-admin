@@ -70,34 +70,37 @@ namespace Bast1aan\DoctrineAdmin\View {
 		}
 		
 		/**
+		 * Populate form and entities connected to it with data send from a browser.
+		 * 
 		 * @param array|string[] $formData
 		 * @todo excerpt. needs to be tested and improved
 		 */
 		public function populate(array $formData) {
-			$da = $this->entity->getDoctrineAdmin();
-			foreach($this->entity->getFieldNames() as $fieldName) {
-				$property = $this->entity->getColumn($fieldName);
+			$entity = $this->getView()->getEntity();
+			$da = $entity->getDoctrineAdmin();
+			foreach($entity->getFieldNames() as $fieldName) {
+				$property = $entity->getColumn($fieldName);
 				if (isset($formData[$fieldName])) {
 					$property->setValueFromString($formData[$fieldName]);
 				} else {
 					$property->setValue(null);
 				}
-				$this->entity->setColumn($property);
+				$entity->setColumn($property);
 			}
 			
-			foreach($this->entity->getAssociationNames() as $associationName) {
-				$property = $this->entity->getColumn($fieldName);
+			foreach($entity->getAssociationNames() as $associationName) {
+				$property = $entity->getColumn($fieldName);
 				if ($property instanceof DoctrineAdmin\CollectionAssociationProperty) {
 					$property->clear();
 					
 					if (isset($formData[$associationName])) {
 						foreach((array) $formData[$associationName] as $id) {
-							$property->add($da->find($property->getType(), $id));
+							$property->add($da->find($property->getEntityName(), $id));
 						}
 					}
 				} elseif ($property instanceof DoctrineAdmin\AssociationProperty) {
 					if (isset($formData[$associationName])) {
-						$property->setValue($da->find($property->getType(), $id));
+						$property->setValue($da->find($property->getEntityName(), $id));
 					} else {
 						$property->setValue(null);
 					}
