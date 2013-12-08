@@ -20,6 +20,7 @@
 
 namespace Bast1aan\DoctrineAdmin\View {
 	use Bast1aan\DoctrineAdmin\ScalarProperty;
+	use Bast1aan\DoctrineAdmin\Property;
 	abstract class FormElementScalar implements FormElement {
 		
 		/**
@@ -54,8 +55,12 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * 
 		 * @return ScalarProperty
 		 */
-		protected function getProperty() {
+		public function getProperty() {
 			return $this->property;
+		}
+		
+		public function setProperty(Property $property) {
+			$this->property = $property;
 		}
 		
 		/**

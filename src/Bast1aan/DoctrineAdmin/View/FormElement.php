@@ -19,6 +19,7 @@
  */
 
 namespace Bast1aan\DoctrineAdmin\View {
+	use Bast1aan\DoctrineAdmin\Property;
 	interface FormElement {
 		/**
 		 * @return string
@@ -26,5 +27,9 @@ namespace Bast1aan\DoctrineAdmin\View {
 		function render();
 		
 		function __toString();
+		
+		function getProperty();
+		
+		function setProperty(Property $property);
 	}
 }

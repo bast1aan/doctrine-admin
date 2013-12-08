@@ -54,8 +54,12 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * 
 		 * @return DoctrineAdmin\AssociationProperty
 		 */
-		protected function getProperty() {
+		public function getProperty() {
 			return $this->property;
+		}
+		
+		public function setProperty(DoctrineAdmin\Property $property) {
+			$this->property = $property;
 		}
 		
 		/**

@@ -28,14 +28,6 @@ namespace Bast1aan\DoctrineAdmin\View {
 		}
 		
 		/**
-		 * 
-		 * @return DoctrineAdmin\CollectionAssociationProperty
-		 */
-		protected function getProperty() {
-			return $this->property;
-		}
-		
-		/**
 		 * @return string
 		 */
 		protected function getTemplate() {
