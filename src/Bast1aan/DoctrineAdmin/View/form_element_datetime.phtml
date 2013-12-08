@@ -21,4 +21,4 @@
 $property = $this->getProperty();
 $value = $property->getValue();
 ?>
-<input  class="doctrine_admin_datetime" type="text" name="<?php print $property->getName() ?>" value="<?php print $value instanceof \DateTime ? $value->format('Y-d-m H:i:s') : $value ?>" />
+<input  class="doctrine_admin_datetime" type="text" name="<?php print $property->getName() ?>" value="<?php print $value instanceof \DateTime ? $value->format('Y-m-d H:i:s') : $value ?>" />
