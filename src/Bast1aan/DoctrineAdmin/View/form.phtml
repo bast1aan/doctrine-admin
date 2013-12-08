@@ -22,6 +22,6 @@ $entity = $this->getEntity();
 ?>
 <table class="doctrine_admin_form">
 <?php foreach(array_merge($entity->getFieldNames(), $entity->getAssociationNames()) as $fieldName): ?>
-	<tr><th><?php echo $fieldName ?></th><td><?php echo $this->getFormElement($fieldName); ?></td></tr>
+	<tr><th><?php echo $fieldName ?></th><td><?php echo $this->getElement($fieldName); ?></td></tr>
 <?php endforeach ?>
 </table>

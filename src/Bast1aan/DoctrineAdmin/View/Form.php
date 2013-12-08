@@ -23,6 +23,11 @@ namespace Bast1aan\DoctrineAdmin\View {
 	class Form {
 		
 		/**
+		 * @var FormElement
+		 */
+		private $elements;
+		
+		/**
 		 * @var View
 		 */
 		private $view;
@@ -104,9 +109,26 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @return FormElement
 		 * @param string $elementName
 		 */
-		public function getFormElement($elementName) {
+		public function getElement($elementName) {
 			$property = $this->view->getEntity()->getColumn($elementName);
-			return $this->view->getFormElement($property, $this);
+			if ($property instanceof DoctrineAdmin\Property) {
+				return $this->view->getFormElement($property, $this);
+			}
+		}
+
+		
+		/**
+		 * @return FormElement[]
+		 */
+		public function getElements() {
+			if ($this->elements == null) {
+				$this->elements = array();
+				$entity = $this->view->getEntity();
+				foreach(array_merge($entity->getFieldNames(), $entity->getAssociationNames()) as $name) {
+					$this->elements[] = $this->view->getFormElement($entity->getColumn($name), $this);
+				}
+			}
+			return $this->elements;
 		}
 	}
 }
