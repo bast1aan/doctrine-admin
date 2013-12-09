@@ -152,7 +152,13 @@ namespace Bast1aan\DoctrineAdmin {
 				$clazz = $this->classMetaData->getReflectionClass();
 				$prop = $clazz->getProperty($offset);
 				$prop->setAccessible(true);
-				$prop->setValue($this->entity, $property->getValue());
+				if ($property instanceof ScalarProperty) {
+					$prop->setValue($this->entity, $property->getValue());
+				} elseif($property instanceof CollectionAssociationProperty) {
+					$prop->setValue($this->entity, $property->toArray());
+				} elseif($property instanceof AssociationProperty) {
+					$prop->setValue($this->entity, $property->getValue()->getOriginalEntity());
+				}
 			}
 		}
 		
