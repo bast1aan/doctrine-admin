@@ -106,5 +106,13 @@ namespace Bast1aan\DoctrineAdmin {
 				}
 			}
 		}
+		
+		/**
+		 * @return object[]
+		 */
+		public function toArray() {
+			error_log(gettype($this->targetEntities));
+			return $this->targetEntities;
+		}
 	}
 }
