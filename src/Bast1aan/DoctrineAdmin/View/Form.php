@@ -89,22 +89,25 @@ namespace Bast1aan\DoctrineAdmin\View {
 			}
 			
 			foreach($entity->getAssociationNames() as $associationName) {
-				$property = $entity->getColumn($fieldName);
+				$property = $entity->getColumn($associationName);
 				if ($property instanceof DoctrineAdmin\CollectionAssociationProperty) {
 					$property->clear();
 					
 					if (isset($formData[$associationName])) {
 						foreach((array) $formData[$associationName] as $id) {
+							if (empty($id))
+								continue;
 							$property->add($da->find($property->getEntityName(), $id));
 						}
 					}
 				} elseif ($property instanceof DoctrineAdmin\AssociationProperty) {
 					if (isset($formData[$associationName])) {
-						$property->setValue($da->find($property->getEntityName(), $id));
+						$property->setValue($da->find($property->getEntityName(), $formData[$associationName]));
 					} else {
 						$property->setValue(null);
 					}
 				}
+				$entity->setColumn($property);
 			}
 		}
 		
