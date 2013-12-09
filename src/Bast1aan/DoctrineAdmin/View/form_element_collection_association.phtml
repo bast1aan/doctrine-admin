@@ -21,9 +21,9 @@
 $property = $this->getProperty();
 $name = $property->getName();
 ?>
-<select multiple="multiple">
+<select multiple="multiple" name="<?php print $name ?>[]">
 <?php foreach($property as $entity): ?>
-	<option name="<?php print $name ?>[]" value="<?php print $entity->getIdAsStr() ?>" selected="selected"><?php print $entity ?></option>
+	<option value="<?php print $entity->getIdAsStr() ?>" selected="selected"><?php print $entity ?></option>
 	
 <?php endforeach; ?>	
 </select><br />
