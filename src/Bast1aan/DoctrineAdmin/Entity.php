@@ -133,7 +133,6 @@ namespace Bast1aan\DoctrineAdmin {
 				$prop->setAccessible(true);
 				$value = $prop->getValue($this->entity);
 				if (in_array($offset, $this->fieldNames)) {
-					$type = $this->classMetaData->getTypeOfField($offset);
 					$fieldMapping = $this->classMetaData->getFieldMapping($offset);
 					return new ScalarProperty($offset, $value, $fieldMapping['type'], $fieldMapping['length'], $this->doctrineAdmin);
 				} elseif (in_array($offset, $this->associationNames)) {
