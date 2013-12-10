@@ -66,9 +66,11 @@ namespace Bast1aan\DoctrineAdmin\View {
 		public function setValue($value) {
 			$this->property->clear();
 			$this->remoteEntitiesById = array();
-			$da = $this->property->getDoctrineAdmin();
+			$da = $this->form->getView()->getEntity()->getDoctrineAdmin();
 			foreach((array)$value as $id) {
-				$remoteEntity = $da->find($this->property->getEntityName(), $value);
+				if (empty($id))
+					continue;
+				$remoteEntity = $da->find($this->property->getEntityName(), $id);
 				$this->property->add($remoteEntity);
 				$this->remoteEntitiesById[$id] = $remoteEntity;
 			}
