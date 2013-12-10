@@ -82,7 +82,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 			return ob_get_clean();
 		}
 
-		protected function getFieldName() {
+		public function getFieldName() {
 			return $this->property->getName();
 		}
 	}

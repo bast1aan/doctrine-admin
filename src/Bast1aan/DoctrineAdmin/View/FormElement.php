@@ -43,5 +43,11 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @return string|string[]
 		 */
 		function getValue();
+		
+		/**
+		 * Get the field name.
+		 * @return string
+		 */
+		function getFieldName();
 	}
 }
