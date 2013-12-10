@@ -31,7 +31,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		/**
 		 * @return string
 		 */
-		public function getValue() {
+		protected function getValue() {
 			return (string) $this->property->getValue();
 		}
 

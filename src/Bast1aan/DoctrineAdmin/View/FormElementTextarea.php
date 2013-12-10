@@ -22,7 +22,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 	use Bast1aan\DoctrineAdmin;
 	class FormElementTextArea extends FormElementText {
 
-		public function getFieldType() {
+		protected function getFieldType() {
 			return 'textarea';
 		}
 
