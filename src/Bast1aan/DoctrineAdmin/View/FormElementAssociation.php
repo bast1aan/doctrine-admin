@@ -100,7 +100,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @param string $value
 		 */
 		public function setValue($value) {
-			$da = $this->property->getDoctrineAdmin();
+			$da = $this->form->getView()->getEntity()->getDoctrineAdmin();
 			$remoteEntity = $da->find($this->property->getEntityName(), $value);
 			$this->property->setValue($remoteEntity);
 		}
