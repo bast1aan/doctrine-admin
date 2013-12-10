@@ -80,11 +80,10 @@ namespace Bast1aan\DoctrineAdmin\View {
 		
 		/**
 		 * 
-		 * @param DoctrineAdmin\Entity $name
 		 * @return string
 		 */
-		protected function renderEntity(DoctrineAdmin\Entity $entity) {
-			return (string) $entity;
+		protected function renderEntity() {
+			return (string) $this->property->getValue();
 		}
 		
 		/**
