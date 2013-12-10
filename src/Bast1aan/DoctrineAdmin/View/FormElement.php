@@ -49,5 +49,10 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @return string
 		 */
 		function getFieldName();
+		
+		/**
+		 * Save value in element to property.
+		 */
+		function saveToProperty();
 	}
 }
