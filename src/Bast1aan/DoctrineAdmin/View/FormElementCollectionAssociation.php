@@ -84,6 +84,11 @@ namespace Bast1aan\DoctrineAdmin\View {
 			return isset($this->remoteEntitiesById[$id]) ? (string) $this->remoteEntitiesById[$id] : '';
 		}
 		
-		
+		/**
+		 * @return string
+		 */
+		protected function getFieldType() {
+			return 'collection_association';
+		}		
 	}
 }

@@ -104,5 +104,20 @@ namespace Bast1aan\DoctrineAdmin\View {
 			$remoteEntity = $da->find($this->property->getEntityName(), $value);
 			$this->property->setValue($remoteEntity);
 		}
+		
+		/**
+		 * @return string
+		 */
+		public function getFieldName() {
+			return $this->property->getName();
+		}
+		
+		/**
+		 * @return string
+		 */
+		protected function getFieldType() {
+			return 'association';
+		}
+	
 	}
 }
