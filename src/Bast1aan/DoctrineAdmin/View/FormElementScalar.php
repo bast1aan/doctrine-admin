@@ -71,11 +71,19 @@ namespace Bast1aan\DoctrineAdmin\View {
 		/**
 		 * @return string
 		 */
+		abstract protected function getFieldType();
+	
+		/**
+		 * @return string
+		 */
 		public function render() {
 			ob_start();
 			require $this->getTemplate();
 			return ob_get_clean();
 		}
-		
+
+		protected function getFieldName() {
+			return $this->property->getName();
+		}
 	}
 }
