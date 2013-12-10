@@ -19,13 +19,41 @@
  */
 
 namespace Bast1aan\DoctrineAdmin\View {
-	class FormElementDate extends FormElementScalar {
+	use \DateTime;
+	use \Bast1aan\DoctrineAdmin\Exception;
+	class FormElementDate extends FormElementText {
 		
+		/**
+		 * Define format
+		 * @return string
+		 */
+		protected function getFormat() {
+			return 'Y-m-d';
+		}
+
+		protected function getFieldType() {
+			return 'date';
+		}
+
 		/**
 		 * @return string
 		 */
-		protected function getTemplate() {
-			return __DIR__ . '/form_element_date.phtml';
+		public function getValue() {
+			$property = $this->getProperty();
+			$date = $property->getValue();
+			if ($date instanceof DateTime) {
+				return $date->format($this->getFormat());
+			} else {
+				throw new Exception(sprintf('Value of property of class %s is not a DateTime', get_class($property)));
+			}
+		}
+
+		/**
+		 * @param string
+		 */
+		public function setValue($value) {
+			$proprety = $this->getProperty();
+			$property->setValue(DateTime::createFromFormat($this->getFormat(), $value));
 		}
 	}
 }
