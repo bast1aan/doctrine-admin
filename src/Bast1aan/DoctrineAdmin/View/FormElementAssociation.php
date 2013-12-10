@@ -118,6 +118,9 @@ namespace Bast1aan\DoctrineAdmin\View {
 		protected function getFieldType() {
 			return 'association';
 		}
-	
+		
+		public function saveToProperty() {
+			$this->form->getView()->getEntity()->setColumn($this->property);
+		}
 	}
 }

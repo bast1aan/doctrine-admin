@@ -85,5 +85,9 @@ namespace Bast1aan\DoctrineAdmin\View {
 		public function getFieldName() {
 			return $this->property->getName();
 		}
+		
+		public function saveToProperty() {
+			$this->form->getView()->getEntity()->setColumn($this->property);
+		}
 	}
 }

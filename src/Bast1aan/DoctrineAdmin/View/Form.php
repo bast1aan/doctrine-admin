@@ -76,39 +76,19 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @todo excerpt. needs to be tested and improved
 		 */
 		public function populate(array $formData) {
-			$entity = $this->getView()->getEntity();
-			$da = $entity->getDoctrineAdmin();
-			foreach($entity->getFieldNames() as $fieldName) {
-				$property = $entity->getColumn($fieldName);
-				if (isset($formData[$fieldName])) {
-					$property->setValueFromString($formData[$fieldName]);
-				} else {
-					$property->setValue(null);
-				}
-				$entity->setColumn($property);
-			}
 			
-			foreach($entity->getAssociationNames() as $associationName) {
-				$property = $entity->getColumn($associationName);
-				if ($property instanceof DoctrineAdmin\CollectionAssociationProperty) {
-					$property->clear();
-					
-					if (isset($formData[$associationName])) {
-						foreach((array) $formData[$associationName] as $id) {
-							if (empty($id))
-								continue;
-							$property->add($da->find($property->getEntityName(), $id));
-						}
-					}
-				} elseif ($property instanceof DoctrineAdmin\AssociationProperty) {
-					if (isset($formData[$associationName])) {
-						$property->setValue($da->find($property->getEntityName(), $formData[$associationName]));
-					} else {
-						$property->setValue(null);
-					}
-				}
-				$entity->setColumn($property);
+			foreach($this->getElements() as $element) {
+				$fieldName = $element->getFieldName();
+				$element->setValue(isset($formData[$fieldName]) ? $formData[$fieldName] : null);
 			}
+		}
+		
+		public function save() {
+			foreach($this->getElements() as $element) {
+				$element->saveToProperty();
+			}
+			$this->view->getEntity()->save();
+			
 		}
 		
 		/**
