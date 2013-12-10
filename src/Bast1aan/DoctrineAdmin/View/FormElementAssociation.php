@@ -91,7 +91,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 */
 		public function getValue() {
 			$remoteEntity = $this->property->getValue();
-			if ($remoteEntity instanceof DoctrinAdmin\Entity) {
+			if ($remoteEntity instanceof DoctrineAdmin\Entity) {
 				return $remoteEntity->getIdAsStr();
 			}
 		}
