@@ -31,5 +31,17 @@ namespace Bast1aan\DoctrineAdmin\View {
 		function getProperty();
 		
 		function setProperty(Property $property);
+
+		/**
+		 * Set the value of the element from incoming form data
+		 * @param string|string[] $value
+		 */
+		function setValue($value);
+
+		/**
+		 * Get the value of this element sutable for the view
+		 * @return string|string[]
+		 */
+		function getValue();
 	}
 }
