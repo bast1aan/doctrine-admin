@@ -23,7 +23,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 	class Form {
 		
 		/**
-		 * @var FormElement
+		 * @var FormElement[]
 		 */
 		private $elements;
 		
