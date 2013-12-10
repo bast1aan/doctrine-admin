@@ -114,8 +114,8 @@ namespace Bast1aan\DoctrineAdmin {
 				$id[$idNames[$i]] = str_replace('--', '-', $idValues[$i]);
 			
 			$entityObj = $this->em->find($entityName, $id);
-			
-			return Entity::factory($entityObj, $this);
+			if ($entityObj != null)
+				return Entity::factory($entityObj, $this);
 		}
 	}
 }
