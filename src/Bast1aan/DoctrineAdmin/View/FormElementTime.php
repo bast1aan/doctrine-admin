@@ -19,13 +19,19 @@
  */
 
 namespace Bast1aan\DoctrineAdmin\View {
-	class FormElementTime extends FormElementScalar {
-		
+	class FormElementDateTime extends FormElementDate {
+			
 		/**
+		 * Define format
 		 * @return string
 		 */
-		protected function getTemplate() {
-			return __DIR__ . '/form_element_time.phtml';
+		protected function getFormat() {
+			return 'H:i:s';
 		}
+
+		protected function getFieldType() {
+			return 'date';
+		}
+
 	}
 }
