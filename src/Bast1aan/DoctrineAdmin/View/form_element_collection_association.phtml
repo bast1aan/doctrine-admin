@@ -18,13 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-$property = $this->getProperty();
-$name = $property->getName();
 ?>
-<select multiple="multiple" name="<?php print $name ?>[]">
-<?php foreach($property as $entity): ?>
-	<option value="<?php print $entity->getIdAsStr() ?>" selected="selected"><?php print $entity ?></option>
+<select class="doctrine_admin_<?php print $this->getFieldType() ?>" multiple="multiple" name="<?php print $this->getFieldName() ?>[]">
+<?php foreach($this->getValue() as $entityId): ?>
+	<option value="<?php print $entityId ?>" selected="selected"><?php print $this->renderEntity($entityId) ?></option>
 	
 <?php endforeach; ?>	
 </select><br />
-			New: <input type="text" name="<?php print $name ?>[]" value="" />
+			New: <input type="text" name="<?php print $this->getFieldName() ?>[]" value="" />
