@@ -27,5 +27,23 @@ namespace Bast1aan\DoctrineAdmin\View {
 		protected function getTemplate() {
 			return __DIR__ . '/form_element_text.phtml';
 		}
+
+		/**
+		 * @return string
+		 */
+		public function getValue() {
+			return (string) $this->property->getValue();
+		}
+
+		protected function getFieldType() {
+			return 'text';
+		}
+
+		/**
+		 * @param string
+		 */
+		public function setValue($value) {
+			$this->property->setValue($value);
+		}
 	}
 }

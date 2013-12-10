@@ -18,6 +18,5 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-$property = $this->getProperty();
 ?>
-<input  class="doctrine_admin_text" type="text" name="<?php print $property->getName() ?>" value="<?php print $property->getValue() ?>" />
+<input class="doctrine_admin_<?php print $this->fieldType() ?> type="text" name="<?php print $this->getFieldName() ?>" value="<?php print $this->getValue() ?>" />
