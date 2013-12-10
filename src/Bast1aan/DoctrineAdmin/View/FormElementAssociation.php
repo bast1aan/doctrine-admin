@@ -86,5 +86,24 @@ namespace Bast1aan\DoctrineAdmin\View {
 		protected function renderEntity(DoctrineAdmin\Entity $entity) {
 			return (string) $entity;
 		}
+		
+		/**
+		 * @param string
+		 */
+		public function getValue() {
+			$remoteEntity = $this->property->getValue();
+			if ($remoteEntity instanceof DoctrinAdmin\Entity) {
+				return $remoteEntity->getIdAsStr();
+			}
+		}
+		
+		/**
+		 * @param string $value
+		 */
+		public function setValue($value) {
+			$da = $this->property->getDoctrineAdmin();
+			$remoteEntity = $da->find($this->property->getEntityName(), $value);
+			$this->property->setValue($remoteEntity);
+		}
 	}
 }
