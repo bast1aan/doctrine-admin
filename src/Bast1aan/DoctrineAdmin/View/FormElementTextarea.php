@@ -20,12 +20,17 @@
 
 namespace Bast1aan\DoctrineAdmin\View {
 	use Bast1aan\DoctrineAdmin;
-	class FormElementTextArea extends FormElementScalar {
+	class FormElementTextArea extends FormElementText {
+
+		public function getFieldType() {
+			return 'textarea';
+		}
+
 		/**
 		 * @return string
 		 */
 		protected function getTemplate() {
-			return __DIR__ . '/form_element_text_area.phtml';
+			return __DIR__ . '/form_element_textarea.phtml';
 		}
 	}
 }
