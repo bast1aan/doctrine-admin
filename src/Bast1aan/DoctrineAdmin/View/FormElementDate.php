@@ -52,7 +52,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @param string
 		 */
 		public function setValue($value) {
-			$proprety = $this->getProperty();
+			$property = $this->getProperty();
 			$property->setValue(DateTime::createFromFormat($this->getFormat(), $value));
 		}
 	}
