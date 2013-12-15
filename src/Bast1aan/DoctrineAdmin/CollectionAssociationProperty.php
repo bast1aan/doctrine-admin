@@ -23,7 +23,7 @@ namespace Bast1aan\DoctrineAdmin {
 	use Iterator;
 	use Doctrine\Common\Collections\Collection as DoctrineCollection;
 	
-	class CollectionAssociationProperty extends AssociationProperty implements Property, Iterator, Countable {
+	class CollectionAssociationProperty extends AssociationProperty implements Iterator, Countable {
 		
 		/**
 		 * @var array
