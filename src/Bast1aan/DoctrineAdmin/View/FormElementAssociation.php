@@ -19,6 +19,7 @@
  */
 
 namespace Bast1aan\DoctrineAdmin\View {
+	use Bast1aan\DoctrineAdmin\AssociationProperty;
 	use Bast1aan\DoctrineAdmin;
 	class FormElementAssociation implements FormElement {
 		
@@ -30,11 +31,11 @@ namespace Bast1aan\DoctrineAdmin\View {
 		
 		/**
 		 *
-		 * @var DoctrineAdmin\AssociationProperty
+		 * @var AssociationProperty
 		 */
 		protected $property;
 		
-		public function __construct(DoctrineAdmin\AssociationProperty $property, Form $form) {
+		public function __construct(AssociationProperty $property, Form $form) {
 			$this->form = $form;
 			$this->property = $property;
 		}
@@ -52,7 +53,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		
 		/**
 		 * 
-		 * @return DoctrineAdmin\AssociationProperty
+		 * @return AssociationProperty
 		 */
 		public function getProperty() {
 			return $this->property;
@@ -73,43 +74,6 @@ namespace Bast1aan\DoctrineAdmin\View {
 			ob_start();
 			$this->executeTemplate();
 			return ob_get_clean();
-		}
-		
-		/**
-		 * @param string
-		 */
-		public function getValue() {
-			$remoteEntity = $this->property->getValue();
-			if ($remoteEntity instanceof DoctrineAdmin\Entity) {
-				return $remoteEntity->getIdAsStr();
-			}
-		}
-		
-		/**
-		 * @param string $value
-		 */
-		public function setValue($value) {
-			$da = $this->form->getView()->getEntity()->getDoctrineAdmin();
-			$remoteEntity = $da->find($this->property->getEntityName(), $value);
-			$this->property->setValue($remoteEntity);
-		}
-		
-		/**
-		 * @return string
-		 */
-		public function getFieldName() {
-			return $this->property->getName();
-		}
-		
-		/**
-		 * @return string
-		 */
-		protected function getFieldType() {
-			return 'association';
-		}
-		
-		public function saveToProperty() {
-			$this->form->getView()->getEntity()->setColumn($this->property);
 		}
 		
 		/**
