@@ -114,6 +114,13 @@ namespace Bast1aan\DoctrineAdmin {
 			return $this->identifierNames;
 		}
 		
+		/**
+		 * @return array
+		 */
+		public function getIdentifierValues() {
+			return $this->classMetaData->getIdentifierValues($this->entity);
+		}
+		
 		public function offsetExists($offset) {
 			return in_array($offset, $this->fieldNames) || in_array($offset, $this->associationNames);
 		}
@@ -176,23 +183,6 @@ namespace Bast1aan\DoctrineAdmin {
 		 */
 		public function getOriginalEntity() {
 			return $this->entity;
-		}
-		
-		/**
-		 * @return string
-		 */
-		public function getIdAsStr() {
-			$idValues = array();
-			// escape the - so it won't be recognized as a compound separator
-			foreach($this->classMetaData->getIdentifierValues($this->entity) as $idValue)
-				$idValues[] = str_replace('-', '--', $idValue);
-			
-			return implode('-', $idValues);
-		}
-		
-		public function __toString() {
-			// TODO make better
-			return get_class($this->entity) . '_' . $this->getIdAsStr();
 		}
 		
 		public function save() {

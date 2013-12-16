@@ -19,6 +19,7 @@
  */
 
 namespace Bast1aan\DoctrineAdmin\View {
+	use Bast1aan\DoctrineAdmin\Entity;
 	use Bast1aan\DoctrineAdmin\Exception;
 	use Bast1aan\DoctrineAdmin\ScalarProperty;
 	use DateTime;
@@ -159,6 +160,34 @@ namespace Bast1aan\DoctrineAdmin\View {
 				throw new Exception(sprintf('Value of property with name %s is not a DateTime', $property->getName()));
 			}
 			return $dateTime;
+		}
+		
+		/**
+		 * @param Entity $entity
+		 * @return string
+		 */
+		public function renderEntity(Entity $entity = null) {
+			if ($entity == null) {
+				$entity = $this->entity;
+			}
+			return get_class($entity->getOriginalEntity()) . '_' . $this->renderEntityId($entity);
+		}
+		
+		/**
+		 * @param Entity $entity
+		 * @return string
+		 */
+		public function renderEntityId(Entity $entity = null) {
+			if ($entity == null) {
+				$entity = $this->entity;
+			}
+			$idValues = array();
+			// escape the - so it won't be recognized as a compound separator
+			foreach($entity->getIdentifierValues() as $idValue)
+				$idValues[] = str_replace('-', '--', $idValue);
+			
+			return implode('-', $idValues);
+			
 		}
 	}
 }
