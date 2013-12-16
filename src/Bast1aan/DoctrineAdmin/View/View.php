@@ -72,13 +72,6 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 */
 		protected function getScalarFormElement(DoctrineAdmin\ScalarProperty $property, Form $form) {
 			switch($property->getType()) {
-				case Type::DATE:
-					return new FormElementDate($property, $form);
-				case Type::DATETIME:
-				case Type::DATETIMETZ:
-					return new FormElementDateTime($property, $form);
-				case Type::TIME:
-					return new FormElementTime($property, $form);
 				case Type::STRING:
 					$length = $property->getLength();
 					// for strings without a known length or with a length larger than 255
@@ -87,7 +80,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 						return new FormElementTextArea($property, $form);
 					}
 				default:
-					return new FormElementText($property, $form);
+					return new FormElementScalar($property, $form);
 			}
 		}
 
