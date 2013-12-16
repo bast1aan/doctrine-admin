@@ -19,7 +19,13 @@
  */
 
 namespace Bast1aan\DoctrineAdmin\View {
+	use Bast1aan\DoctrineAdmin\AssociationProperty;
+
+	use Bast1aan\DoctrineAdmin\CollectionAssociationProperty;
+	use Bast1aan\DoctrineAdmin\Entity;
+	use Bast1aan\DoctrineAdmin\ScalarProperty;
 	use Bast1aan\DoctrineAdmin;
+	
 	class Form implements HasView {
 		
 		/**
@@ -55,7 +61,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		
 		/**
 		 * 
-		 * @return DoctrineAdmin\Entity
+		 * @return Entity
 		 * @deprecated
 		 */
 		public function getEntity() {
@@ -78,8 +84,37 @@ namespace Bast1aan\DoctrineAdmin\View {
 		public function populate(array $formData) {
 			
 			foreach($this->getElements() as $element) {
-				$fieldName = $element->getFieldName();
-				$element->setValue(isset($formData[$fieldName]) ? $formData[$fieldName] : null);
+				$property = $element->getProperty();
+				$fieldName = $property->getName();
+				if ($property instanceof ScalarProperty) {
+					if (isset($formData[$fieldName])) {
+						$this->view->formatStringToScalarProperty($formData[$fieldName], $property);
+					} else {
+						$property->setValue(null);
+					}
+				} elseif ($property instanceof CollectionAssociationProperty) {
+					$property->clear();
+					if (is_array($formData[$fieldName])) {
+						foreach($formData[$fieldName] as $id) {
+							if (empty($id))
+								continue;
+							$entity = $this->view->getEntityById($property->getEntityName(), $id);
+							if ($entity instanceof Entity) {
+								$property->add($entity);
+							}
+						}
+					}
+				} elseif ($property instanceof AssociationProperty) {
+					$entity = null;
+					if (!empty($formData[$fieldName])) {
+						$entity = $this->view->getEntityById($property->getEntityName(), $formData[$fieldName]);
+					}
+					if ($entity instanceof Entity) {
+						$property->setValue($entity);
+					} else {
+						$property->setValue(null);
+					}
+				}
 			}
 		}
 		
