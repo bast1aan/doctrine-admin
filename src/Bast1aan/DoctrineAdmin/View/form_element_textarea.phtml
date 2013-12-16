@@ -18,5 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+if ($this instanceof \Bast1aan\DoctrineAdmin\View\FormElementScalar):
 ?>
-<textarea class="doctrine_admin_<?php print $this->getFieldType() ?>" name="<?php print $this->getFieldName() ?>"><?php print htmlentities($this->getValue()) ?></textarea>
+<textarea class="doctrine_admin_<?php print $this->property->getType() ?>" name="<?php print $this->property->getName() ?>"><?php print $this->getView()->formatScalarPropertyToString($this->property) ?></textarea>
+<?php endif ?>
