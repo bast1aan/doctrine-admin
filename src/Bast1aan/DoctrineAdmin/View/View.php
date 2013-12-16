@@ -19,9 +19,16 @@
  */
 
 namespace Bast1aan\DoctrineAdmin\View {
+	use Bast1aan\DoctrineAdmin\Exception;
+	use Bast1aan\DoctrineAdmin\ScalarProperty;
+	use DateTime;
 	use Bast1aan\DoctrineAdmin;
 	use Doctrine\DBAL\Types\Type;
 	class View {
+		
+		const FORMAT_DATE = 'Y-m-d';
+		const FORMAT_DATETIME = 'Y-m-d H:i:s';
+		const FORMAT_TIME = 'H:i:s';
 		
 		/**
 		 * @var DoctrineAdmin\Entity
@@ -106,6 +113,59 @@ namespace Bast1aan\DoctrineAdmin\View {
 			return $this->entity;
 		}
 
+		/**
+		 * @param ScalarProperty $string
+		 * @return string
+		 */
+		public function formatScalarPropertyToString(ScalarProperty $property) {
+			switch($property->getType()) {
+				case Type::DATE:
+					$dateTime = $this->getDateTimeFromProperty($property);
+					return $dateTime->format(self::FORMAT_DATE);
+				case Type::DATETIME:
+				case Type::DATETIMETZ:
+					$dateTime = $this->getDateTimeFromProperty($property);
+					return $dateTime->format(self::FORMAT_DATETIME);
+				case Type::TIME:
+					$dateTime = $this->getDateTimeFromProperty($property);
+					return $dateTime->format(self::FORMAT_TIME);
+				default:
+					return (string) $property->getValue();
+			}
+		}
 		
+		/**
+		 * @param string $string
+		 * @param ScalarProperty $property
+		 */
+		public function formatStringToScalarProperty($string, ScalarProperty& $property) {
+			switch($property->getValue()) {
+				case Type::DATE:
+					$property->setValue(DateTime::createFromFormat(self::FORMAT_DATE, $string));
+					return;
+				case Type::DATETIME:
+				case Type::DATETIMETZ:
+					$property->setValue(DateTime::createFromFormat(self::FORMAT_DATETIME, $string));
+					return;
+				case Type::TIME:
+					$property->setValue(DateTime::createFromFormat(self::FORMAT_TIME, $string));
+					return;
+				default:
+					$property->setValue($string);
+			}
+		}
+		
+		/**
+		 * @param ScalarProperty $property
+		 * @return DateTime
+		 * @throws Exception
+		 */
+		private function getDateTimeFromProperty(ScalarProperty $property) {
+			$dateTime = $property->getValue();
+			if (!$dateTime instanceof DateTime) {
+				throw new Exception(sprintf('Value of property with name %s is not a DateTime', $property->getName()));
+			}
+			return $dateTime;
+		}
 	}
 }
