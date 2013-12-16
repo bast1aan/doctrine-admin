@@ -122,5 +122,13 @@ namespace Bast1aan\DoctrineAdmin\View {
 		public function saveToProperty() {
 			$this->form->getView()->getEntity()->setColumn($this->property);
 		}
+		
+		/**
+		 * @return View
+		 */
+		public function getView() {
+			return $this->form->getView();
+		}
+		
 	}
 }
