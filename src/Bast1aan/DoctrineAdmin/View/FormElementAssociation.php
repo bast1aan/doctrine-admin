@@ -62,11 +62,8 @@ namespace Bast1aan\DoctrineAdmin\View {
 			$this->property = $property;
 		}
 		
-		/**
-		 * @return string
-		 */
-		protected function getTemplate() {
-			return __DIR__ . '/form_element_association.phtml';
+		protected function executeTemplate() {
+			require __DIR__ . '/form_element_association.phtml';
 		}
 		
 		/**
@@ -74,7 +71,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 */
 		public function render() {
 			ob_start();
-			require $this->getTemplate();
+			$this->executeTemplate();
 			return ob_get_clean();
 		}
 		

@@ -45,8 +45,8 @@ namespace Bast1aan\DoctrineAdmin\View {
 		/**
 		 * @return string
 		 */
-		protected function getTemplate() {
-			return __DIR__ . '/form_element_collection_association.phtml';
+		protected function executeTemplate() {
+			require __DIR__ . '/form_element_collection_association.phtml';
 		}
 		
 		/**
