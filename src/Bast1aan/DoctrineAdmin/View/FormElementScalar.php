@@ -21,7 +21,7 @@
 namespace Bast1aan\DoctrineAdmin\View {
 	use Bast1aan\DoctrineAdmin\ScalarProperty;
 	use Bast1aan\DoctrineAdmin\Property;
-	abstract class FormElementScalar implements FormElement {
+	class FormElementScalar implements FormElement {
 		
 		/**
 		 *
@@ -38,10 +38,6 @@ namespace Bast1aan\DoctrineAdmin\View {
 		public function __construct(ScalarProperty $property, Form $form) {
 			$this->form = $form;
 			$this->property = $property;
-		}
-		
-		public function __toString() {
-			return $this->render();
 		}
 		
 		/**
@@ -63,31 +59,21 @@ namespace Bast1aan\DoctrineAdmin\View {
 			$this->property = $property;
 		}
 		
-		/**
-		 * @return string
-		 */
-		abstract protected function getTemplate();
+		protected function executeTemplate() {
+			require __DIR__ . '/form_element.phtml';
+		}
 		
-		/**
-		 * @return string
-		 */
-		abstract protected function getFieldType();
-	
 		/**
 		 * @return string
 		 */
 		public function render() {
 			ob_start();
-			require $this->getTemplate();
+			$this->executeTemplate();
 			return ob_get_clean();
 		}
-
-		public function getFieldName() {
-			return $this->property->getName();
-		}
 		
-		public function saveToProperty() {
-			$this->form->getView()->getEntity()->setColumn($this->property);
+		public function __toString() {
+			return $this->render();
 		}
 		
 		/**

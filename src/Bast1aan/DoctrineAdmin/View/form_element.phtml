@@ -18,19 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Bast1aan\DoctrineAdmin\View {
-	use Bast1aan\DoctrineAdmin\Property;
-	interface FormElement extends HasView {
-		/**
-		 * @return string
-		 */
-		function render();
-		
-		function __toString();
-		
-		function getProperty();
-		
-		function setProperty(Property $property);
-
-	}
-}
+if ($this instanceof \Bast1aan\DoctrineAdmin\View\FormElementScalar) :
+?>
+<input class="doctrine_admin_<?php print $this->property->getType() ?>" type="text" name="<?php print $this->property->getName() ?>" value="<?php print $this->getView()->formatScalarPropertyToString($this->property) ?>" />
+<?php endif ?>
