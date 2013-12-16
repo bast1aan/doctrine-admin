@@ -19,40 +19,10 @@
  */
 
 namespace Bast1aan\DoctrineAdmin\View {
-	use Bast1aan\DoctrineAdmin\Property;
-	interface FormElement extends HasView {
+	interface HasView {
 		/**
-		 * @return string
+		 * @return View
 		 */
-		function render();
-		
-		function __toString();
-		
-		function getProperty();
-		
-		function setProperty(Property $property);
-
-		/**
-		 * Set the value of the element from incoming form data
-		 * @param string|string[] $value
-		 */
-		function setValue($value);
-
-		/**
-		 * Get the value of this element sutable for the view
-		 * @return string|string[]
-		 */
-		function getValue();
-		
-		/**
-		 * Get the field name.
-		 * @return string
-		 */
-		function getFieldName();
-		
-		/**
-		 * Save value in element to property.
-		 */
-		function saveToProperty();
+		function getView();
 	}
 }

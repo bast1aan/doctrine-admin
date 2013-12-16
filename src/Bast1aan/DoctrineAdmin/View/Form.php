@@ -20,7 +20,7 @@
 
 namespace Bast1aan\DoctrineAdmin\View {
 	use Bast1aan\DoctrineAdmin;
-	class Form {
+	class Form implements HasView {
 		
 		/**
 		 * @var FormElement[]
