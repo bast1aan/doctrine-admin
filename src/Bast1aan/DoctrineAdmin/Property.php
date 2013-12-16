@@ -24,6 +24,9 @@ namespace Bast1aan\DoctrineAdmin {
 		
 		function getValue();
 		function getName();
+		/**
+		 * @deprecated
+		 */
 		function __toString();
 		function isNull();
 	}

@@ -95,6 +95,9 @@ namespace Bast1aan\DoctrineAdmin {
 			return $this->value === null;
 		}
 		
+		/**
+		 * @deprecated
+		 */
 		public function __toString() {
 			$value = $this->getValue();
 			if ($value instanceof DateTime) {
@@ -106,6 +109,9 @@ namespace Bast1aan\DoctrineAdmin {
 			}
 		}
 		
+		/**
+		 * @deprecated
+		 */
 		public function setValueFromString($string) {
 			switch($this->getType()) {
 				case 'date':
