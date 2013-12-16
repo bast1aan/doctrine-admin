@@ -119,10 +119,11 @@ namespace Bast1aan\DoctrineAdmin\View {
 		}
 		
 		public function save() {
+			$entity = $this->view->getEntity();
 			foreach($this->getElements() as $element) {
-				$element->saveToProperty();
+				$entity->setColumn($element->getProperty());
 			}
-			$this->view->getEntity()->save();
+			$entity->save();
 			
 		}
 		
