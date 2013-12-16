@@ -25,6 +25,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 	use DateTime;
 	use Bast1aan\DoctrineAdmin;
 	use Doctrine\DBAL\Types\Type;
+	use Bast1aan\DoctrinAdmin\Exception;
 	class View {
 		
 		const FORMAT_DATE = 'Y-m-d';
@@ -32,7 +33,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		const FORMAT_TIME = 'H:i:s';
 		
 		/**
-		 * @var DoctrineAdmin\Entity
+		 * @var Entity
 		 */
 		private $entity;
 		
@@ -101,7 +102,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		
 		/**
 		 * 
-		 * @return DoctrineAdmin\Entity
+		 * @return Entity
 		 */
 		final public function getEntity() {
 			return $this->entity;
@@ -188,6 +189,32 @@ namespace Bast1aan\DoctrineAdmin\View {
 			
 			return implode('-', $idValues);
 			
+		}
+		
+		/**
+		 * @param string $entityName
+		 * @param string $entityId
+		 * @return Entity
+		 * @throws Exception
+		 */
+		public function getEntityById($entityName, $entityId) {
+			$da = $this->entity->getDoctrineAdmin();
+			$em = $da->getEntityManager();
+			$classMetaData = $this->em->getClassMetadata($entityName);
+			
+			$idNames = $classMetaData->getIdentifierFieldNames();
+			
+			$idValues = explode('-', $entityId);
+			
+			if (count($idNames) != count($idValues)) {
+				throw new Exception('Primary key values don\'t match amount of primary key fields');
+			}
+			
+			$id = array();
+			for($i = 0; $i < count($idNames); ++$i)
+				$id[$idNames[$i]] = str_replace('--', '-', $idValues[$i]);
+			
+			return $da->find($entityName, $id);
 		}
 	}
 }
