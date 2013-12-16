@@ -76,14 +76,6 @@ namespace Bast1aan\DoctrineAdmin\View {
 		}
 		
 		/**
-		 * 
-		 * @return string
-		 */
-		protected function renderEntity() {
-			return (string) $this->property->getValue();
-		}
-		
-		/**
 		 * @param string
 		 */
 		public function getValue() {
