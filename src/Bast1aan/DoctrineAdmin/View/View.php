@@ -25,7 +25,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 	use DateTime;
 	use Bast1aan\DoctrineAdmin;
 	use Doctrine\DBAL\Types\Type;
-	use Bast1aan\DoctrinAdmin\Exception;
+	
 	class View {
 		
 		const FORMAT_DATE = 'Y-m-d';
@@ -134,7 +134,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @param ScalarProperty $property
 		 */
 		public function formatStringToScalarProperty($string, ScalarProperty& $property) {
-			switch($property->getValue()) {
+			switch($property->getType()) {
 				case Type::DATE:
 					$property->setValue(DateTime::createFromFormat(self::FORMAT_DATE, $string));
 					return;
@@ -200,7 +200,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		public function getEntityById($entityName, $entityId) {
 			$da = $this->entity->getDoctrineAdmin();
 			$em = $da->getEntityManager();
-			$classMetaData = $this->em->getClassMetadata($entityName);
+			$classMetaData = $em->getClassMetadata($entityName);
 			
 			$idNames = $classMetaData->getIdentifierFieldNames();
 			
