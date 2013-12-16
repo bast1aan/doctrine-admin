@@ -18,11 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+if ($this instanceof \Bast1aan\DoctrineAdmin\View\FormElementCollectionAssociation) :
+$view = $this->getView();
 ?>
-<select class="doctrine_admin_<?php print $this->getFieldType() ?>" multiple="multiple" name="<?php print $this->getFieldName() ?>[]">
-<?php foreach($this->getValue() as $entityId): ?>
-	<option value="<?php print $entityId ?>" selected="selected"><?php print $this->renderEntity($entityId) ?></option>
+<select class="doctrine_admin_form_element_collection_association" multiple="multiple" name="<?php print $this->property->getName() ?>[]">
+<?php foreach($this->property as $remoteEntity): ?>
+	<option value="<?php print $view->renderEntityId($remoteEntity) ?>" selected="selected"><?php print $view->renderEntity($entity) ?></option>
 	
 <?php endforeach; ?>	
 </select><br />
-			New: <input type="text" name="<?php print $this->getFieldName() ?>[]" value="" />
+			New: <input type="text" name="<?php print $this->property->getName() ?>[]" value="" />
+<?php endif; ?>

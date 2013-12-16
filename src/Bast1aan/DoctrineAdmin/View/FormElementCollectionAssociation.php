@@ -31,15 +31,6 @@ namespace Bast1aan\DoctrineAdmin\View {
 		public function __construct(CollectionAssociationProperty $property, Form $form) {
 			$this->form = $form;
 			$this->property = $property;
-			
-			// build array of remote entities mapped by string id
-			foreach($this->property as $remoteEntity) {
-				if ($remoteEntity instanceof Entity) {
-					$id = $remoteEntity->getIdAsStr();
-					$values[] = $id;
-					$this->remoteEntitiesById[$id] = $remoteEntity; 
-				}
-			}
 		}
 		
 		/**
@@ -48,49 +39,5 @@ namespace Bast1aan\DoctrineAdmin\View {
 		protected function executeTemplate() {
 			require __DIR__ . '/form_element_collection_association.phtml';
 		}
-		
-		/**
-		 * Return list of IDs
-		 * 
-		 * @return string[]
-		 */
-		public function getValue() {
-			return array_keys($this->remoteEntitiesById);
-		}
-		
-		/**
-		 * Set list of IDs for this association. Resets old list.
-		 * 
-		 * @param string[]
-		 */
-		public function setValue($value) {
-			$this->property->clear();
-			$this->remoteEntitiesById = array();
-			$da = $this->form->getView()->getEntity()->getDoctrineAdmin();
-			foreach((array)$value as $id) {
-				if (empty($id))
-					continue;
-				$remoteEntity = $da->find($this->property->getEntityName(), $id);
-				$this->property->add($remoteEntity);
-				$this->remoteEntitiesById[$id] = $remoteEntity;
-			}
-		}
-		
-		/**
-		 * Render entity given by id.
-		 * 
-		 * @param string $id
-		 * @return string
-		 */
-		protected function renderEntity($id) {
-			return isset($this->remoteEntitiesById[$id]) ? (string) $this->remoteEntitiesById[$id] : '';
-		}
-		
-		/**
-		 * @return string
-		 */
-		protected function getFieldType() {
-			return 'collection_association';
-		}		
 	}
 }
