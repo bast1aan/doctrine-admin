@@ -208,6 +208,10 @@ namespace Bast1aan\DoctrineAdmin {
 		public function getView() {
 			return new View($this);
 		}
+		
+		public function getClassMetaData() {
+			return $this->classMetaData;
+		}
 
 	}
 }
