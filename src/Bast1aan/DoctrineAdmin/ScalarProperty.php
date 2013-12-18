@@ -67,10 +67,6 @@ namespace Bast1aan\DoctrineAdmin {
 			$this->doctrineAdmin = $doctrineAdmin;
 		}
 		
-		public function __getString() {
-			return (string) $this->getValue();
-		}
-
 		public function getName() {
 			return $this->name;
 		}
