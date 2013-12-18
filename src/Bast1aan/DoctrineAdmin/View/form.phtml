@@ -18,10 +18,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+if ($this instanceof \Bast1aan\DoctrineAdmin\View\Form) :
+
 $entity = $this->getEntity();
+
 ?>
 <table class="doctrine_admin_form">
-<?php foreach(array_merge($entity->getFieldNames(), $entity->getAssociationNames()) as $fieldName): ?>
-	<tr><th><?php echo $fieldName ?></th><td><?php echo $this->getElement($fieldName); ?></td></tr>
+<?php foreach(array_merge($entity->getFieldNames(), $entity->getAssociationNames()) as $fieldName):
+$element = $this->getElement($fieldName);
+$property = $element->getProperty();
+
+?>
+	<tr><th><?php echo $fieldName ?></th><td><?php if ($property->isNullable()): ?><input type="checkbox" name="is_null[<?php print $fieldName ?>]" value="true" <?php if ($property->isNull()):?>checked="checked" <?php endif ?>/><?php endif ?></td><td><?php echo $element ?></td></tr>
 <?php endforeach ?>
 </table>
+<?php endif ?>
