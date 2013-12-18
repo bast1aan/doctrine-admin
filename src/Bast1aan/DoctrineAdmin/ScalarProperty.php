@@ -96,5 +96,9 @@ namespace Bast1aan\DoctrineAdmin {
 			return $this->value === null;
 		}
 		
+		public function isNullable() {
+			return $this->entity->getClassMetaData()->isNullable($this->getName());
+		}
+		
 	}
 }
