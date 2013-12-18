@@ -40,8 +40,7 @@ namespace Bast1aan\DoctrineAdmin {
 		 * 
 		 * @param string $name
 		 * @param Collection|array $values
-		 * @param string $entityName
-		 * @param DoctrineAdmin $doctrineAdmin
+		 * @param Entity $entity
 		 * @throws Exception
 		 */
 		public function __construct($name, $values, Entity $entity) {

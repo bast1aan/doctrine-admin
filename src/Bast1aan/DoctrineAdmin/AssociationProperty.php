@@ -53,8 +53,7 @@ namespace Bast1aan\DoctrineAdmin {
 		 * 
 		 * @param string $name
 		 * @param object $value
-		 * @param string $entityName
-		 * @param DoctrineAdmin $doctrineAdmin
+		 * @param Entity $entity
 		 */
 		public function __construct($name, $value, Entity $entity) {
 			$this->name = $name;
