@@ -113,5 +113,9 @@ namespace Bast1aan\DoctrineAdmin {
 			error_log(gettype($this->targetEntities));
 			return $this->targetEntities;
 		}
+		
+		public function isNullable() {
+			return false;
+		}
 	}
 }
