@@ -95,32 +95,5 @@ namespace Bast1aan\DoctrineAdmin {
 			return $this->value === null;
 		}
 		
-		/**
-		 * @deprecated
-		 */
-		public function __toString() {
-			$value = $this->getValue();
-			if ($value instanceof DateTime) {
-				return $value->format('Y-m-d');
-			} elseif ($value === null) {
-				return 'NULL';
-			} else {
-				return (string) $value;
-			}
-		}
-		
-		/**
-		 * @deprecated
-		 */
-		public function setValueFromString($string) {
-			switch($this->getType()) {
-				case 'date':
-				case 'datetime':
-					$this->setValue(new DateTime($string));
-					break;
-				default:
-					$this->setValue($string);
-			}
-		}
 	}
 }
