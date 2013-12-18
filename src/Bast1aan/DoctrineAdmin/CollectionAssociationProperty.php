@@ -44,7 +44,7 @@ namespace Bast1aan\DoctrineAdmin {
 		 * @param DoctrineAdmin $doctrineAdmin
 		 * @throws Exception
 		 */
-		public function __construct($name, $values, $entityName, DoctrineAdmin $doctrineAdmin) {
+		public function __construct($name, $values, Entity $entity) {
 			if (is_array($values)) {
 				$this->targetEntities = $values;
 			} elseif ($values instanceof DoctrineCollection) {
@@ -52,7 +52,7 @@ namespace Bast1aan\DoctrineAdmin {
 			} else {
 				return new Exception('Collection property value not an instance of Doctrine\Common\Collections\Collection and not an array');
 			}
-			parent::__construct($name, count($values) > 0 ? $values[0] : null, $entityName, $doctrineAdmin);
+			parent::__construct($name, count($values) > 0 ? $values[0] : null, $entity);
 
 		}
 		

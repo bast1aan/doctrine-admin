@@ -142,11 +142,10 @@ namespace Bast1aan\DoctrineAdmin {
 				if (in_array($offset, $this->fieldNames)) {
 					return new ScalarProperty($offset, $value, $this);
 				} elseif (in_array($offset, $this->associationNames)) {
-					$targetEntityName = $this->classMetaData->getAssociationTargetClass($offset);
 					if ($this->classMetaData->isCollectionValuedAssociation($offset)) {
-						return new CollectionAssociationProperty($offset, $value, $targetEntityName, $this->doctrineAdmin);
+						return new CollectionAssociationProperty($offset, $value, $this);
 					} elseif($this->classMetaData->isSingleValuedAssociation($offset)) {
-						return new AssociationProperty($offset, $value, $targetEntityName, $this->doctrineAdmin);
+						return new AssociationProperty($offset, $value, $this);
 					}
 				}
 			}

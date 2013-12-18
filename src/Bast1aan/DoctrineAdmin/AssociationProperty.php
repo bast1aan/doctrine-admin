@@ -22,6 +22,11 @@ namespace Bast1aan\DoctrineAdmin {
 	class AssociationProperty implements Property {
 		
 		/**
+		 * @var Entity 
+		 */
+		private $entity;
+		
+		/**
 		 *
 		 * @var name of the association
 		 */
@@ -51,11 +56,12 @@ namespace Bast1aan\DoctrineAdmin {
 		 * @param string $entityName
 		 * @param DoctrineAdmin $doctrineAdmin
 		 */
-		public function __construct($name, $value, $entityName, DoctrineAdmin $doctrineAdmin) {
+		public function __construct($name, $value, Entity $entity) {
 			$this->name = $name;
 			$this->value = $value;
-			$this->entityName = $entityName;
-			$this->doctrineAdmin = $doctrineAdmin;
+			$this->entity = $entity;
+			$this->entityName = $entity->getClassMetaData()->getAssociationTargetClass($name);
+			$this->doctrineAdmin = $entity->getDoctrineAdmin();
 		}
 
 		/**
