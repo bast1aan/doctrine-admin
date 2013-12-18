@@ -96,6 +96,17 @@ namespace Bast1aan\DoctrineAdmin {
 		public function isNull() {
 			return $this->value === null;
 		}
-
+		
+		public function isNullable() {
+			$associationMapping = $this->entity->getClassMetaData()->getAssociationMapping($this->getName());
+			// single-associatons are default nullable, except when explicitly false.
+			// See http://docs.doctrine-project.org/en/latest/reference/annotations-reference.html#annref-joincolumn
+			if (isset($associationMapping['joingColumns']) &&
+				isset($associationMapping['joingColumns']['nullable']) &&
+				$associationMapping['joingColumns']['nullable'] === false)
+				return false;
+			else
+				return true;
+		}
 	}
 }
