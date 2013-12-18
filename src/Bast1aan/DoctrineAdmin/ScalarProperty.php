@@ -23,6 +23,11 @@ namespace Bast1aan\DoctrineAdmin {
 	class ScalarProperty implements Property {
 		
 		/**
+		 * @var Entity
+		 */
+		private $entity;
+		
+		/**
 		 * Name of the property.
 		 * @var string
 		 */
@@ -55,16 +60,16 @@ namespace Bast1aan\DoctrineAdmin {
 		 * 
 		 * @param string $name
 		 * @param mixed $value
-		 * @param string $type
-		 * @param int $length
-		 * @param DoctrineAdmin $doctrineAdmin
+		 * @param Entity $entity
 		 */
-		public function __construct($name, $value, $type, $length, DoctrineAdmin $doctrineAdmin) {
+		public function __construct($name, $value, Entity $entity) {
 			$this->name = $name;
 			$this->value = $value;
-			$this->type = $type;
-			$this->length = $length;
-			$this->doctrineAdmin = $doctrineAdmin;
+			$this->entity = $entity;
+			$fieldMapping = $entity->getClassMetaData()->getFieldMapping($name);
+			$this->type = $fieldMapping['type'];
+			$this->length = $fieldMapping['length'];
+			$this->doctrineAdmin = $entity->getDoctrineAdmin();
 		}
 		
 		public function getName() {
