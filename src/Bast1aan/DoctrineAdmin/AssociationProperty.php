@@ -92,22 +92,5 @@ namespace Bast1aan\DoctrineAdmin {
 			return $this->value === null;
 		}
 
-		
-		/**
-		 * 
-		 * @deprecated
-		 */
-		public function __toString() {
-			return (string) $this->getAsEntity();
-		}
-		
-		/**
-		 * 
-		 * @return Entity
-		 * @deprecated
-		 */
-		public function getAsEntity() {
-			return $this->getValue();
-		}
 	}
 }
