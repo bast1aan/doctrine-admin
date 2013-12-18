@@ -28,6 +28,9 @@ namespace Bast1aan\DoctrineAdmin\View {
 		
 		function __toString();
 		
+		/**
+		 * @return Property
+		 */
 		function getProperty();
 		
 		function setProperty(Property $property);
