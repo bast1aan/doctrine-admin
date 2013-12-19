@@ -113,6 +113,9 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @return string
 		 */
 		public function formatScalarPropertyToString(ScalarProperty $property) {
+			if ($property->isNull()) {
+				return null;
+			}
 			switch($property->getType()) {
 				case Type::DATE:
 					$dateTime = $this->getDateTimeFromProperty($property);
