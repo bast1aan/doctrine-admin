@@ -86,8 +86,12 @@ namespace Bast1aan\DoctrineAdmin\View {
 			foreach($this->getElements() as $element) {
 				$property = $element->getProperty();
 				$fieldName = $property->getName();
+				$isNull = array();
+				if (is_array($formData['is_null'])) {
+					$isNull = $formData['is_null'];
+				}
 				if ($property instanceof ScalarProperty) {
-					if (isset($formData[$fieldName])) {
+					if (isset($formData[$fieldName]) && empty($isNull[$fieldName])) {
 						$this->view->formatStringToScalarProperty($formData[$fieldName], $property);
 					} else {
 						$property->setValue(null);
@@ -109,7 +113,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 					if (!empty($formData[$fieldName])) {
 						$entity = $this->view->getEntityById($property->getEntityName(), $formData[$fieldName]);
 					}
-					if ($entity instanceof Entity) {
+					if ($entity instanceof Entity && empty($isNull[$fieldName])) {
 						$property->setValue($entity);
 					} else {
 						$property->setValue(null);
