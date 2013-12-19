@@ -18,7 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if ($this instanceof \Bast1aan\DoctrineAdmin\View\Form) :
+use Bast1aan\DoctrineAdmin\View\Form;
+
+if ($this instanceof Form) :
 
 $entity = $this->getEntity();
 
@@ -29,7 +31,7 @@ $element = $this->getElement($fieldName);
 $property = $element->getProperty();
 
 ?>
-	<tr><th><?php echo $fieldName ?></th><td><?php if ($property->isNullable()): ?><input type="checkbox" name="is_null[<?php print $fieldName ?>]" value="true" <?php if ($property->isNull()):?>checked="checked" <?php endif ?>/><?php endif ?></td><td><?php echo $element ?></td></tr>
+	<tr><th><?php echo $fieldName ?></th><td><?php if ($property->isNullable()): ?><input type="checkbox" name="<?php print Form::FIELD_NAME_IS_NULL ?>[<?php print $fieldName ?>]" value="true" <?php if ($property->isNull()):?>checked="checked" <?php endif ?>/><?php endif ?></td><td><?php echo $element ?></td></tr>
 <?php endforeach ?>
 </table>
 <?php endif ?>
