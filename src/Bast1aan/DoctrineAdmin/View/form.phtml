@@ -26,7 +26,10 @@ $entity = $this->getEntity();
 
 ?>
 <table class="doctrine_admin_form">
-    <tr><th>Field</th><th>Null</th><th>Contents</th></th></tr>
+    <thead>
+        <tr><th>Field</th><th>Null</th><th>Contents</th></th></tr>
+    </thead>
+    <tbody>
 <?php foreach(array_merge($entity->getFieldNames(), $entity->getAssociationNames()) as $fieldName):
 $element = $this->getElement($fieldName);
 $property = $element->getProperty();
@@ -34,5 +37,6 @@ $property = $element->getProperty();
 ?>
 	<tr><th><?php echo $fieldName ?></th><td><?php if ($property->isNullable()): ?><input type="checkbox" name="<?php print Form::FIELD_NAME_IS_NULL ?>[<?php print $fieldName ?>]" value="true" <?php if ($property->isNull()):?>checked="checked" <?php endif ?>/><?php endif ?></td><td><?php echo $element ?></td></tr>
 <?php endforeach ?>
+    </tbody>
 </table>
 <?php endif ?>
