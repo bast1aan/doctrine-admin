@@ -26,6 +26,7 @@ $entity = $this->getEntity();
 
 ?>
 <table class="doctrine_admin_form">
+    <tr><th>Field</th><th>Null</th><th>Contents</th></th></tr>
 <?php foreach(array_merge($entity->getFieldNames(), $entity->getAssociationNames()) as $fieldName):
 $element = $this->getElement($fieldName);
 $property = $element->getProperty();
