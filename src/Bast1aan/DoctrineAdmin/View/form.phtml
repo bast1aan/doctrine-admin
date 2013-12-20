@@ -19,6 +19,7 @@
  */
 
 use Bast1aan\DoctrineAdmin\View\Form;
+use Bast1aan\DoctrineAdmin\AssociationProperty;
 
 if ($this instanceof Form) :
 
@@ -34,8 +35,12 @@ $entity = $this->getEntity();
 $element = $this->getElement($fieldName);
 $property = $element->getProperty();
 
+$trClass = '';
+if ($property instanceof AssociationProperty) {
+	$trClass = ' class="target_entity ' . str_replace('\\', '-', $property->getEntityName()) . '"';
+}
 ?>
-	<tr><th><?php echo $fieldName ?></th><td><?php if ($property->isNullable()): ?><input type="checkbox" name="<?php print Form::FIELD_NAME_IS_NULL ?>[<?php print $fieldName ?>]" value="true" <?php if ($property->isNull()):?>checked="checked" <?php endif ?>/><?php endif ?></td><td><?php echo $element ?></td></tr>
+	<tr<?php print $trClass ?>><th><?php echo $fieldName ?></th><td><?php if ($property->isNullable()): ?><input type="checkbox" name="<?php print Form::FIELD_NAME_IS_NULL ?>[<?php print $fieldName ?>]" value="true" <?php if ($property->isNull()):?>checked="checked" <?php endif ?>/><?php endif ?></td><td><?php echo $element ?></td></tr>
 <?php endforeach ?>
 	</tbody>
 </table>
