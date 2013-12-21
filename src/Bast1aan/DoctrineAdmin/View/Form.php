@@ -89,7 +89,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 				$property = $element->getProperty();
 				$fieldName = $property->getName();
 				$isNull = array();
-				if (is_array($formData[self::FIELD_NAME_IS_NULL])) {
+				if (isset($formData[self::FIELD_NAME_IS_NULL]) && is_array($formData[self::FIELD_NAME_IS_NULL])) {
 					$isNull = $formData[self::FIELD_NAME_IS_NULL];
 				}
 				if ($property instanceof ScalarProperty) {
