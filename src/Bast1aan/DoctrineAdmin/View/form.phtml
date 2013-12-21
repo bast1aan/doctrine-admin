@@ -20,6 +20,7 @@
 
 use Bast1aan\DoctrineAdmin\View\Form;
 use Bast1aan\DoctrineAdmin\AssociationProperty;
+use Bast1aan\DoctrineAdmin\ScalarProperty;
 
 if ($this instanceof Form) :
 
@@ -35,12 +36,18 @@ $entity = $this->getEntity();
 $element = $this->getElement($fieldName);
 $property = $element->getProperty();
 
-$trClass = '';
+$trClass = array();
 if ($property instanceof AssociationProperty) {
-	$trClass = ' class="target_entity ' . str_replace('\\', '-', $property->getEntityName()) . '"';
+	$trClass[] = 'target_entity';
+	$trClass[] = str_replace('\\', '-', $property->getEntityName());
 }
+
+if ($property instanceof ScalarProperty && $property->isId()) {
+	$trClass[] = 'is_id';
+}
+
 ?>
-	<tr<?php print $trClass ?>><th><?php echo $fieldName ?></th><td><?php if ($property->isNullable()): ?><input type="checkbox" name="<?php print Form::FIELD_NAME_IS_NULL ?>[<?php print $fieldName ?>]" value="true" <?php if ($property->isNull()):?>checked="checked" <?php endif ?>/><?php endif ?></td><td><?php echo $element ?></td></tr>
+	<tr<?php if (count($trClass) > 0) print ' class="' . implode(' ', $trClass) . '"' ?>><th><?php echo $fieldName ?></th><td><?php if ($property->isNullable()): ?><input type="checkbox" name="<?php print Form::FIELD_NAME_IS_NULL ?>[<?php print $fieldName ?>]" value="true" <?php if ($property->isNull()):?>checked="checked" <?php endif ?>/><?php endif ?></td><td><?php echo $element ?></td></tr>
 <?php endforeach ?>
 	</tbody>
 </table>
