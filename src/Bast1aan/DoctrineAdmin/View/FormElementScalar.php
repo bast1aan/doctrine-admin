@@ -82,5 +82,22 @@ namespace Bast1aan\DoctrineAdmin\View {
 		public function getView() {
 			return $this->form->getView();
 		}
+
+		/**
+		 * @return string
+		 */
+		public function getClass() {
+			$class = "doctrine_admin_element_" . $this->property->getType();
+			if ($this->getProperty()->isId())
+				$class .= ' doctrine_admin_element_id';
+			return $class;
+		}
+
+		public function isDisabled() {
+			if ($this->getProperty()->isAutoId() && strlen($this->property->getValue()) > 0 )
+				return true;
+			else
+				return false;
+		}
 	}
 }

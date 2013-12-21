@@ -20,5 +20,5 @@
 
 if ($this instanceof \Bast1aan\DoctrineAdmin\View\FormElementScalar) :
 ?>
-<input class="doctrine_admin_<?php print $this->property->getType() ?>" type="text" name="<?php print $this->property->getName() ?>" value="<?php print $this->getView()->formatScalarPropertyToString($this->property) ?>" />
+<input class="<?php print $this->getClass() ?>" type="text" name="<?php print $this->property->getName() ?>" value="<?php print $this->getView()->formatScalarPropertyToString($this->property) ?>" <?php if ($this->isDisabled()): ?>disabled="disabled" <?php endif?>/>
 <?php endif ?>
