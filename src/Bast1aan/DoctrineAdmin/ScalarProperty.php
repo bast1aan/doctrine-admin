@@ -99,6 +99,14 @@ namespace Bast1aan\DoctrineAdmin {
 		public function isNullable() {
 			return $this->entity->getClassMetaData()->isNullable($this->getName());
 		}
+
+		public function isId() {
+			return in_array($this->getName(), $this->entity->getIdentifierNames());
+		}
+
+		public function isAutoId() {
+			return $this->isId() && $this->entity->getClassMetaData()->usesIdGenerator();
+		}
 		
 	}
 }
