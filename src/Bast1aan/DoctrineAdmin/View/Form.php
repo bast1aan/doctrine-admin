@@ -95,7 +95,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 				if ($property instanceof ScalarProperty) {
 					if (isset($formData[$fieldName]) && empty($isNull[$fieldName])) {
 						$this->view->formatStringToScalarProperty($formData[$fieldName], $property);
-					} else {
+					} elseif (!$property->isAutoId()) {
 						$property->setValue(null);
 					}
 				} elseif ($property instanceof CollectionAssociationProperty) {
