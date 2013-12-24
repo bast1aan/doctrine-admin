@@ -21,9 +21,12 @@
 namespace Bast1aan\DoctrineAdmin\View {
 	use Bast1aan\DoctrineAdmin\Entity;
 	use Bast1aan\DoctrineAdmin\Exception;
+	use Bast1aan\DoctrineAdmin\Property;
 	use Bast1aan\DoctrineAdmin\ScalarProperty;
+	use Bast1aan\DoctrineAdmin\AssociationProperty;
+	use Bast1aan\DoctrineAdmin\CollectionAssociationProperty;
+	use Bast1aan\DoctrineAdmin\DoctrineAdmin;
 	use DateTime;
-	use Bast1aan\DoctrineAdmin;
 	use Doctrine\DBAL\Types\Type;
 	
 	class View {
@@ -31,20 +34,32 @@ namespace Bast1aan\DoctrineAdmin\View {
 		const FORMAT_DATE = 'Y-m-d';
 		const FORMAT_DATETIME = 'Y-m-d H:i:s';
 		const FORMAT_TIME = 'H:i:s';
-		
+
 		/**
-		 * @var Entity
+		 * @var DoctrineAdmin;
 		 */
-		private $entity;
-		
+		private $doctrineAdmin;
+
 		/**
-		 * 
-		 * @param DoctrineAdmin\Entity $entity
+		 * @param DoctrineAdmin $doctrineAdmin
 		 */
-		public function __construct(DoctrineAdmin\Entity $entity) {
-			$this->entity = $entity;
+		public function setDoctrineAdmin($doctrineAdmin)
+		{
+			$this->doctrineAdmin = $doctrineAdmin;
 		}
-		
+
+		/**
+		 * @return DoctrineAdmin
+		 */
+		public function getDoctrineAdmin()
+		{
+			return $this->doctrineAdmin;
+		}
+
+		public function __construct(DoctrineAdmin $doctrineAdmin = null) {
+			$this->doctrineAdmin = $doctrineAdmin;
+		}
+
 		/**
 		 * @return Form
 		 */
@@ -54,25 +69,25 @@ namespace Bast1aan\DoctrineAdmin\View {
 		
 		/**
 		 * 
-		 * @param DoctrineAdmin\Property $property
+		 * @param Property $property
 		 * @param Form $form
 		 * @return FormElement
 		 */
-		public function getFormElement(DoctrineAdmin\Property $property, Form $form) {
-			if ($property instanceof DoctrineAdmin\ScalarProperty) {
+		public function getFormElement(Property $property, Form $form) {
+			if ($property instanceof ScalarProperty) {
 				return $this->getScalarFormElement($property, $form);
-			} elseif ($property instanceof DoctrineAdmin\AssociationProperty) {
+			} elseif ($property instanceof AssociationProperty) {
 				return $this->getAssociationFormElement($property, $form);
 			}
 		}
 		
 		/**
 		 * 
-		 * @param DoctrineAdmin\ScalarProperty $property
+		 * @param ScalarProperty $property
 		 * @param Form $form
 		 * @return FormElementScalar
 		 */
-		protected function getScalarFormElement(DoctrineAdmin\ScalarProperty $property, Form $form) {
+		protected function getScalarFormElement(ScalarProperty $property, Form $form) {
 			switch($property->getType()) {
 				case Type::STRING:
 					$length = $property->getLength();
@@ -88,28 +103,20 @@ namespace Bast1aan\DoctrineAdmin\View {
 
 		/**
 		 * 
-		 * @param DoctrineAdmin\AssociationProperty $property
+		 * @param AssociationProperty $property
 		 * @param Form $form
 		 * @return FormElementAssociation
 		 */
-		protected function getAssociationFormElement(DoctrineAdmin\AssociationProperty $property, Form $form) {
-			if ($property instanceof DoctrineAdmin\CollectionAssociationProperty) {
+		protected function getAssociationFormElement(AssociationProperty $property, Form $form) {
+			if ($property instanceof CollectionAssociationProperty) {
 				return new FormElementCollectionAssociation($property, $form);
-			} elseif($property instanceof DoctrineAdmin\AssociationProperty) {
+			} elseif($property instanceof AssociationProperty) {
 				return new FormElementAssociation($property, $form);
 			}
 		}
 		
 		/**
-		 * 
-		 * @return Entity
-		 */
-		final public function getEntity() {
-			return $this->entity;
-		}
-
-		/**
-		 * @param ScalarProperty $string
+		 * @param ScalarProperty $property
 		 * @return string
 		 */
 		public function formatScalarPropertyToString(ScalarProperty $property) {
@@ -170,10 +177,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @param Entity $entity
 		 * @return string
 		 */
-		public function renderEntity(Entity $entity = null) {
-			if ($entity == null) {
-				$entity = $this->entity;
-			}
+		public function renderEntity(Entity $entity) {
 			return get_class($entity->getOriginalEntity()) . '_' . $this->renderEntityId($entity);
 		}
 		
@@ -181,10 +185,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @param Entity $entity
 		 * @return string
 		 */
-		public function renderEntityId(Entity $entity = null) {
-			if ($entity == null) {
-				$entity = $this->entity;
-			}
+		public function renderEntityId(Entity $entity) {
 			$idValues = array();
 			// escape the - so it won't be recognized as a compound separator
 			foreach($entity->getIdentifierValues() as $idValue)
@@ -193,7 +194,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 			return implode('-', $idValues);
 			
 		}
-		
+
 		/**
 		 * @param string $entityName
 		 * @param string $entityId
@@ -201,8 +202,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @throws Exception
 		 */
 		public function getEntityById($entityName, $entityId) {
-			$da = $this->entity->getDoctrineAdmin();
-			$em = $da->getEntityManager();
+			$em = $this->doctrineAdmin->getEntityManager();
 			$classMetaData = $em->getClassMetadata($entityName);
 			
 			$idNames = $classMetaData->getIdentifierFieldNames();
@@ -217,7 +217,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 			for($i = 0; $i < count($idNames); ++$i)
 				$id[$idNames[$i]] = str_replace('--', '-', $idValues[$i]);
 			
-			return $da->find($entityName, $id);
+			return $this->doctrineAdmin->find($entityName, $id);
 		}
 	}
 }
