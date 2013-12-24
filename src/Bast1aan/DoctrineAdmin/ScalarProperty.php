@@ -107,6 +107,13 @@ namespace Bast1aan\DoctrineAdmin {
 		public function isAutoId() {
 			return $this->isId() && $this->entity->getClassMetaData()->usesIdGenerator();
 		}
-		
+
+		/**
+		 * @return Entity
+		 */
+		public function getEntity() {
+			return $this->entity;
+		}
+
 	}
 }

@@ -108,5 +108,12 @@ namespace Bast1aan\DoctrineAdmin {
 			else
 				return true;
 		}
+
+		/**
+		 * @return Entity
+		 */
+		public function getEntity()	{
+			return $this->entity;
+		}
 	}
 }
