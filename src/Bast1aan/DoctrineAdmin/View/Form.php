@@ -34,14 +34,20 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @var FormElement[]
 		 */
 		private $elements;
-		
+
+		/**
+		 * @var Entity
+		 */
+		private $entity;
+
 		/**
 		 * @var View
 		 */
 		private $view;
 		
-		public function __construct(View $view) {
+		public function __construct(View $view = null, Entity $entity = null) {
 			$this->view = $view;
+			$this->entity = $entity;
 		}
 		
 		protected function getTemplate() {
@@ -64,12 +70,25 @@ namespace Bast1aan\DoctrineAdmin\View {
 		/**
 		 * 
 		 * @return Entity
-		 * @deprecated
 		 */
 		public function getEntity() {
-			return $this->view->getEntity();
+			return $this->entity;
 		}
-		
+
+		/**
+		 * @param Entity $entity
+		 */
+		public function setEntity($entity) {
+			$this->entity = $entity;
+		}
+
+		/**
+		 * @param View $view
+		 */
+		public function setView($view) {
+			$this->view = $view;
+		}
+
 		/**
 		 * @return View
 		 */
