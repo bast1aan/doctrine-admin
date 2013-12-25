@@ -19,12 +19,18 @@
  */
 
 namespace Bast1aan\DoctrineAdmin {
-	
+
+	use Bast1aan\DoctrineAdmin\View\View;
 	use Doctrine\ORM\EntityManager;
 	use Doctrine\Common\Collections\ArrayCollection;
 	
 	class DoctrineAdmin {
-		
+
+		/**
+		 * @var View;
+		 */
+		private $view;
+
 		/**
 		 * @var EntityManager
 		 */
@@ -101,6 +107,13 @@ namespace Bast1aan\DoctrineAdmin {
 			$entityObj = $this->em->find($entityName, $id);
 			if ($entityObj != null)
 				return Entity::factory($entityObj, $this);
+		}
+
+		public function getView() {
+			if ($this-view == null) {
+				$this->view = new View($this);
+			}
+			return $this->view;
 		}
 	}
 }
