@@ -66,6 +66,7 @@ namespace Bast1aan\DoctrineAdmin {
 		 */
 		public static function factory($entity, DoctrineAdmin $da) {
 			$config = $da->getConfig();
+			$daEntity = null;
 			if ($config != null) {
 				$daEntity = $config->getDoctrineAdminEntityByNativeEntity($entity);
 			}
