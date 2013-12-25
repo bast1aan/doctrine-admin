@@ -22,10 +22,8 @@
 namespace Bast1aan\DoctrineAdmin {
 	
 	use Doctrine\ORM\Mapping\ClassMetadata;
-	use Bast1aan\DoctrineAdmin\View\View;
 	use ArrayAccess;
-	use Countable;
-	
+
 	class Entity implements ArrayAccess {
 		/**
 		 * @var object
@@ -200,13 +198,6 @@ namespace Bast1aan\DoctrineAdmin {
 		 */
 		public function getDoctrineAdmin() {
 			return $this->doctrineAdmin;
-		}
-		
-		/**
-		 * @return View
-		 */
-		public function getView() {
-			return new View($this);
 		}
 		
 		public function getClassMetaData() {
