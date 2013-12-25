@@ -20,11 +20,18 @@
 
 
 namespace Bast1aan\DoctrineAdmin {
-	
+
+	use Bast1aan\DoctrineAdmin\View\Form;
 	use Doctrine\ORM\Mapping\ClassMetadata;
 	use ArrayAccess;
 
 	class Entity implements ArrayAccess {
+
+		/**
+		 * @var Form
+		 */
+		private $form;
+
 		/**
 		 * @var object
 		 */
@@ -203,6 +210,13 @@ namespace Bast1aan\DoctrineAdmin {
 		
 		public function getClassMetaData() {
 			return $this->classMetaData;
+		}
+
+		public function getForm() {
+			if ($this->form == null) {
+				$this->form = new Form($this, $this->doctrineAdmin->getView());
+			}
+			return $this->form;
 		}
 
 	}
