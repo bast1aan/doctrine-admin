@@ -45,9 +45,9 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 */
 		private $view;
 		
-		public function __construct(View $view = null, Entity $entity = null) {
-			$this->view = $view;
+		public function __construct(Entity $entity = null, View $view = null) {
 			$this->entity = $entity;
+			$this->view = $view;
 		}
 		
 		protected function getTemplate() {
