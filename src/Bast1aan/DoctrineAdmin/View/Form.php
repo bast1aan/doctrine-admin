@@ -144,11 +144,10 @@ namespace Bast1aan\DoctrineAdmin\View {
 		}
 		
 		public function save() {
-			$entity = $this->view->getEntity();
 			foreach($this->getElements() as $element) {
-				$entity->setColumn($element->getProperty());
+				$this->entity->setColumn($element->getProperty());
 			}
-			$entity->save();
+			$this->entity->save();
 			
 		}
 		
@@ -157,7 +156,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @param string $elementName
 		 */
 		public function getElement($elementName) {
-			$property = $this->view->getEntity()->getColumn($elementName);
+			$property = $this->entity->getColumn($elementName);
 			if ($property instanceof DoctrineAdmin\Property) {
 				return $this->view->getFormElement($property, $this);
 			}
@@ -170,9 +169,8 @@ namespace Bast1aan\DoctrineAdmin\View {
 		public function getElements() {
 			if ($this->elements == null) {
 				$this->elements = array();
-				$entity = $this->view->getEntity();
-				foreach(array_merge($entity->getFieldNames(), $entity->getAssociationNames()) as $name) {
-					$this->elements[] = $this->view->getFormElement($entity->getColumn($name), $this);
+				foreach(array_merge($this->entity->getFieldNames(), $this->entity->getAssociationNames()) as $name) {
+					$this->elements[] = $this->view->getFormElement($this->entity->getColumn($name), $this);
 				}
 			}
 			return $this->elements;
