@@ -55,7 +55,13 @@ namespace Bast1aan\DoctrineAdmin\View {
 			$this->executeTemplate();
 			return ob_get_clean();
 		}
-		
+
+		/**
+		 * @return Collection|Entity[]
+		 */
+		public function getCollection() {
+			return $this->collection;
+		}
 
 	}
 }
