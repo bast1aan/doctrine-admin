@@ -43,7 +43,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 * @return View
 		 */
 		public function getView() {
-			return $this-view;
+			return $this->view;
 		}
 
 		protected function executeTemplate() {
