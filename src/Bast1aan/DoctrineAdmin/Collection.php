@@ -20,7 +20,8 @@
 
 
 namespace Bast1aan\DoctrineAdmin {
-	
+
+	use Bast1aan\DoctrineAdmin\View\EntityList;
 	use Doctrine\Common\Collections\Collection as DoctrineCollection;
 	// use Doctrine\ORM\Mapping\ClassMetadata;
 	use Doctrine\Common\Persistence\Mapping\ClassMetadata;
@@ -119,6 +120,13 @@ namespace Bast1aan\DoctrineAdmin {
 		public function getAssociationNames() {
 			return $this->classMetadata->getAssociationNames();
 		}
-		
+
+		/**
+		 * @return EntityList
+		 */
+		public function getEntityList() {
+			return new EntityList($this, $this->doctrineAdmin->getView());
+		}
+
 	}
 }
