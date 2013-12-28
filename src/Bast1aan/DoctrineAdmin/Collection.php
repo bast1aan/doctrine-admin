@@ -28,7 +28,12 @@ namespace Bast1aan\DoctrineAdmin {
 	use Iterator, ArrayAccess, Countable;
 	
 	class Collection implements Iterator, ArrayAccess, Countable {
-		
+
+		/**
+		 * @var EntityList
+		 */
+		private $entityList;
+
 		/**
 		 * @var array
 		 */
@@ -125,7 +130,11 @@ namespace Bast1aan\DoctrineAdmin {
 		 * @return EntityList
 		 */
 		public function getEntityList() {
-			return new EntityList($this, $this->doctrineAdmin->getView());
+			if ($this->entityList == null) {
+				$this->entityList = new EntityList($this, $this->doctrineAdmin->getView());
+			}
+
+			return $this->entityList;
 		}
 
 	}
