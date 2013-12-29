@@ -94,7 +94,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 					// for strings without a known length or with a length larger than 255
 					// create a textarea
 					if ($length == 0 || $length > 255) {
-						return new FormElementTextArea($property, $form);
+						return new FormElementTextarea($property, $form);
 					}
 				default:
 					return new FormElementScalar($property, $form);

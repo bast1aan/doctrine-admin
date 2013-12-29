@@ -20,7 +20,7 @@
 
 namespace Bast1aan\DoctrineAdmin\View {
 	use Bast1aan\DoctrineAdmin;
-	class FormElementTextArea extends FormElementScalar {
+	class FormElementTextarea extends FormElementScalar {
 		protected function executeTemplate() {
 			require __DIR__ . '/form_element_textarea.phtml';
 		}
