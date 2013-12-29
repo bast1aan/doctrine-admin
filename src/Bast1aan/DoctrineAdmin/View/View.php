@@ -89,6 +89,8 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 */
 		protected function getScalarFormElement(ScalarProperty $property, Form $form) {
 			switch($property->getType()) {
+				case Type::BOOLEAN:
+					return new FormElementCheckbox($property, $form);
 				case Type::STRING:
 					$length = $property->getLength();
 					// for strings without a known length or with a length larger than 255
@@ -124,6 +126,8 @@ namespace Bast1aan\DoctrineAdmin\View {
 				return null;
 			}
 			switch($property->getType()) {
+				case Type::BOOLEAN:
+					return $property->getValue() ? 'true' : 'false';
 				case Type::DATE:
 					$dateTime = $this->getDateTimeFromProperty($property);
 					return $dateTime->format(self::FORMAT_DATE);
@@ -145,6 +149,9 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 */
 		public function formatStringToScalarProperty($string, ScalarProperty& $property) {
 			switch($property->getType()) {
+				case Type::BOOLEAN:
+					$property->setValue($string == 'true');
+					return;
 				case Type::DATE:
 					$property->setValue(DateTime::createFromFormat(self::FORMAT_DATE, $string));
 					return;
