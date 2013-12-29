@@ -110,7 +110,7 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 
 		public function getView() {
-			if ($this-view == null) {
+			if ($this->view == null) {
 				$this->view = new View($this);
 			}
 			return $this->view;
