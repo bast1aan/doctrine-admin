@@ -118,16 +118,30 @@ namespace Bast1aan\DoctrineAdmin\View {
 						$property->setValue(null);
 					}
 				} elseif ($property instanceof CollectionAssociationProperty) {
-					$property->clear();
 					if (is_array($formData[$fieldName])) {
+						$entityIdsBefore = array();
+						foreach($property as $entity) {
+							$entityIdBefore = $this->view->renderEntityId($entity);
+							if (!in_array($entityIdBefore, $formData[$fieldName])) {
+								// entity ID is no longer in the form, so it is removed
+								$property->remove($entity);
+							} else {
+								$entityIdsBefore[] = $entityIdBefore;
+							}
+						}
 						foreach($formData[$fieldName] as $id) {
 							if (empty($id))
 								continue;
-							$entity = $this->view->getEntityById($property->getEntityName(), $id);
-							if ($entity instanceof Entity) {
-								$property->add($entity);
+							if (!in_array($id, $entityIdsBefore)) {
+								// an entity has been added
+								$entity = $this->view->getEntityById($property->getEntityName(), $id);
+								if ($entity instanceof Entity) {
+									$property->add($entity);
+								}
 							}
 						}
+					} else {
+						$property->clear();
 					}
 				} elseif ($property instanceof AssociationProperty) {
 					$entity = null;
