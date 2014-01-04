@@ -25,7 +25,8 @@ namespace Bast1aan\DoctrineAdmin\View {
 	use Bast1aan\DoctrineAdmin\Entity;
 	use Bast1aan\DoctrineAdmin\ScalarProperty;
 	use Bast1aan\DoctrineAdmin;
-	
+	use Doctrine\DBAL\Types\Type;
+
 	class Form implements HasView {
 
 		const FIELD_NAME_IS_NULL = 'is_null';
@@ -114,6 +115,8 @@ namespace Bast1aan\DoctrineAdmin\View {
 				if ($property instanceof ScalarProperty) {
 					if (isset($formData[$fieldName]) && empty($isNull[$fieldName])) {
 						$this->view->formatStringToScalarProperty($formData[$fieldName], $property);
+					} elseif ($property->getType() == Type::BOOLEAN) {
+						$this->view->formatStringToScalarProperty('', $property);
 					} elseif (!$property->isAutoId()) {
 						$property->setValue(null);
 					}
