@@ -168,7 +168,7 @@ namespace Bast1aan\DoctrineAdmin {
 				} elseif ($property instanceof ScalarProperty) {
 					$prop->setValue($this->entity, $property->getValue());
 				} elseif($property instanceof CollectionAssociationProperty) {
-					$prop->setValue($this->entity, $property->toArray());
+					$prop->setValue($this->entity, $property->getTargetEntities());
 				} elseif($property instanceof AssociationProperty) {
 					$prop->setValue($this->entity, $property->getValue()->getOriginalEntity());
 				}

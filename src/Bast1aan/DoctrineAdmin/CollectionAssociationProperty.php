@@ -26,10 +26,15 @@ namespace Bast1aan\DoctrineAdmin {
 	class CollectionAssociationProperty extends AssociationProperty implements Iterator, Countable {
 		
 		/**
-		 * @var array
+		 * @var DoctrineCollection
 		 */
 		private $targetEntities;
-		
+
+		/**
+		 * @var mixed[]
+		 */
+		private $targetEntitiesKeys;
+
 		/**
 		 *
 		 * @var int
@@ -44,23 +49,22 @@ namespace Bast1aan\DoctrineAdmin {
 		 * @throws Exception
 		 */
 		public function __construct($name, $values, Entity $entity) {
-			if (is_array($values)) {
+			if ($values instanceof DoctrineCollection) {
 				$this->targetEntities = $values;
-			} elseif ($values instanceof DoctrineCollection) {
-				$this->targetEntities = $values->toArray();
+				$this->targetEntitiesKeys = $values->getKeys();
 			} else {
-				return new Exception('Collection property value not an instance of Doctrine\Common\Collections\Collection and not an array');
+				return new Exception('Collection property value not an instance of Doctrine\Common\Collections\Collection');
 			}
 			parent::__construct($name, count($values) > 0 ? $values[0] : null, $entity);
 
 		}
-		
+
 		public function count() {
-			count($this->targetEntities);
+			$this->targetEntities->count();
 		}
 		
 		public function current() {
-			return Entity::factory($this->targetEntities[$this->i], $this->doctrineAdmin);
+			return Entity::factory($this->targetEntities->get($this->targetEntitiesKeys[$this->i]), $this->doctrineAdmin);
 		}
 
 		public function key() {
@@ -76,45 +80,60 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 
 		public function valid() {
-			return isset($this->targetEntities[$this->i]);
+			return isset($this->targetEntitiesKeys[$this->i]);
 		}
 		
 		/**
 		 * @param Entity|object $entity
 		 */
 		public function add($entity) {
+			error_log('add ' . implode('-' . $entity->getIdentifierValues()));
 			if ($entity instanceof Entity) {
-				$this->targetEntities[] = $entity->getOriginalEntity();
+				$this->targetEntities->add($entity->getOriginalEntity());
 			} else {
-				$this->targetEntities[] = $entity;
+				$this->targetEntities->add($entity);
 			}
+			$this->targetEntitiesKeys = $this->targetEntities->getKeys();
+			$this->rewind();
 		}
 		
 		public function clear() {
-			$this->targetEntities = array();
+			$this->targetEntities->clear();
+			$this->targetEntitiesKeys = $this->targetEntities->getKeys();
+			$this->rewind();
 		}
 		
 		/**
 		 * @param Entity|object $entity
 		 */
 		public function remove($entity) {
-			foreach($this->targetEntities as $key => $item) {
-				if ($item == $entity) {
-					unset($this->targetEntities[$key]);
-					return;
-				}
+			error_log('remove ' . implode('-' . $entity->getIdentifierValues()));
+			if ($entity instanceof Entity) {
+				$this->targetEntities->removeElement($entity->getOriginalEntity());
+			} else {
+				$this->targetEntities->removeElement($entity);
 			}
+			$this->targetEntitiesKeys = $this->targetEntities->getKeys();
+			$this->rewind();
 		}
 		
 		/**
 		 * @return object[]
 		 */
 		public function toArray() {
-			return $this->targetEntities;
+			return $this->targetEntities->toArray();
 		}
 		
 		public function isNullable() {
 			return false;
 		}
+
+		/**
+		 * @return DoctrineCollection
+		 */
+		public function getTargetEntities() {
+			return $this->targetEntities;
+		}
+
 	}
 }
