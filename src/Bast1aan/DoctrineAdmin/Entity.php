@@ -23,6 +23,7 @@ namespace Bast1aan\DoctrineAdmin {
 
 	use Bast1aan\DoctrineAdmin\View\Form;
 	use Doctrine\ORM\Mapping\ClassMetadata;
+	use Doctrine\Common\Persistence\Proxy;
 	use ArrayAccess;
 
 	class Entity implements ArrayAccess {
@@ -86,6 +87,11 @@ namespace Bast1aan\DoctrineAdmin {
 		
 		public function __construct($entity, DoctrineAdmin $doctrineAdmin = null) {
 			$this->entity = $entity;
+
+			if ($this->entity instanceof Proxy) {
+				$this->entity->__load();
+			}
+
 			if ($doctrineAdmin != null) {
 				$this->setDoctrineAdmin($doctrineAdmin);
 			}
