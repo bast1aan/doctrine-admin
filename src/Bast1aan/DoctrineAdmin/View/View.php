@@ -162,6 +162,15 @@ namespace Bast1aan\DoctrineAdmin\View {
 				case Type::TIME:
 					$property->setValue(DateTime::createFromFormat(self::FORMAT_TIME, $string));
 					return;
+				case Type::BIGINT:
+				case Type::SMALLINT:
+				case Type::INTEGER:
+					$property->setValue((int) $string);
+					return;
+				case Type::FLOAT:
+				case Type::DECIMAL:
+					$property->setValue((float) $string);
+					return;
 				default:
 					$property->setValue($string);
 			}
