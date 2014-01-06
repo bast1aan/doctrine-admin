@@ -20,6 +20,7 @@
 
 namespace Bast1aan\DoctrineAdmin {
 	use Countable;
+	use Doctrine\Common\Collections\ArrayCollection;
 	use Iterator;
 	use Doctrine\Common\Collections\Collection as DoctrineCollection;
 	
@@ -51,12 +52,13 @@ namespace Bast1aan\DoctrineAdmin {
 		public function __construct($name, $values, Entity $entity) {
 			if ($values instanceof DoctrineCollection) {
 				$this->targetEntities = $values;
-				$this->targetEntitiesKeys = $values->getKeys();
+			} elseif ($values == null) {
+				$this->targetEntities = new ArrayCollection();
 			} else {
-				return new Exception('Collection property value not an instance of Doctrine\Common\Collections\Collection');
+				throw new Exception('Collection property value not an instance of Doctrine\Common\Collections\Collection');
 			}
+			$this->targetEntitiesKeys = $this->targetEntities->getKeys();
 			parent::__construct($name, count($values) > 0 ? $values[0] : null, $entity);
-
 		}
 
 		public function count() {
