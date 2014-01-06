@@ -199,6 +199,7 @@ namespace Bast1aan\DoctrineAdmin {
 		
 		public function save() {
 			$em = $this->doctrineAdmin->getEntityManager();
+			$em->persist($this->entity);
 			$em->flush($this->entity);
 		}
 		
