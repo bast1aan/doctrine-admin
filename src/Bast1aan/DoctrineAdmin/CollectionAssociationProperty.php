@@ -89,7 +89,6 @@ namespace Bast1aan\DoctrineAdmin {
 		 * @param Entity|object $entity
 		 */
 		public function add($entity) {
-			error_log('add ' . implode('-' . $entity->getIdentifierValues()));
 			if ($entity instanceof Entity) {
 				$this->targetEntities->add($entity->getOriginalEntity());
 			} else {
