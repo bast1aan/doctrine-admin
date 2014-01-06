@@ -137,5 +137,12 @@ namespace Bast1aan\DoctrineAdmin {
 			return $this->entityList;
 		}
 
+		/**
+		 * @return string
+		 */
+		public function getEntityName() {
+			return $this->classMetadata->getName();
+		}
+
 	}
 }
