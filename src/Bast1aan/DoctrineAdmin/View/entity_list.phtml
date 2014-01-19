@@ -29,11 +29,14 @@ $collection = $this->getCollection();
 $fieldNames = array_merge($collection->getFieldNames(), $collection->getAssociationNames());
 ?>
 <table class="doctrine_admin_list">
+	<thead>
 	<tr>
 <?php foreach($fieldNames as $header) : ?>
 		<th><?php print $header ?></th>
 <?php endforeach ?>
 	</tr>
+	</thead>
+	<tbody>
 <?php foreach($collection as $entity) : ?>
 <tr>
 <?php foreach($fieldNames as $name) :
@@ -55,11 +58,12 @@ elseif ($property instanceof CollectionAssociationProperty):?>
 		</td>
 <?php elseif ($property instanceof AssociationProperty): $targetEntity = $property->getValue(); ?>
 <td class="target_entity <?php print str_replace('\\', '-', $property->getEntityName());?>">
-<span class="target_entity_id <?php print $view->renderEntityId($targetEntity) ?>"><?php print $view->renderEntity($targetEntity) ?></span>
+<?php if($targetEntity != null): ?><span class="target_entity_id <?php print $view->renderEntityId($targetEntity) ?>"><?php print $view->renderEntity($targetEntity) ?></span><?php endif ?>
 </td>
 <?php endif ?>
 <?php endforeach ?>
 </tr>
 <?php endforeach ?>
+</tbody>
 </table>
 <?php endif ?>
