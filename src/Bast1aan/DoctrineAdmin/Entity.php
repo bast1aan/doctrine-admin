@@ -206,6 +206,7 @@ namespace Bast1aan\DoctrineAdmin {
 		public function delete() {
 			$em = $this->doctrineAdmin->getEntityManager();
 			$em->remove($this->entity);
+			$em->flush($this->entity);
 		}
 		
 		/**
