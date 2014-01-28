@@ -115,5 +115,17 @@ namespace Bast1aan\DoctrineAdmin {
 		public function getEntity()	{
 			return $this->entity;
 		}
+
+		/**
+		 * Determines if this association is read-only
+		 * For now, a association is readonly if it is the inverse side of the association.
+		 * Doctrine won't save the changes in this case.
+		 *
+		 * @return boolean
+		 */
+		public function isReadOnly() {
+			return $this->entity->getClassMetaData()->isAssociationInverseSide($this->name);
+		}
+
 	}
 }

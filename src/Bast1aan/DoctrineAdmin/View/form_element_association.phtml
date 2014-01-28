@@ -20,10 +20,11 @@
 
 if ($this instanceof \Bast1aan\DoctrineAdmin\View\FormElementAssociation):
 $entity = $this->property->getValue();
+$isReadOnly = $this->property->isReadOnly();
 if ($this->property->isNull()):
 ?>
-	<input class="doctrine_admin_form_element_association" type="text" name="<?php print $this->property->getName() ?>" />
+	<input <?php if($isReadOnly):?>readonly="readonly" <?php endif ?>class="doctrine_admin_form_element_association" type="text" name="<?php print $this->property->getName() ?>" />
 <?php else: ?>
- <span class="target_entity_id <?php print $this->getView()->renderEntityId($entity) ?>"><?php print $this->getView()->renderEntity($entity) ?></span> <input class="doctrine_admin_form_element_association" type="text" name="<?php print $this->property->getName() ?>" value="<?php print $this->getView()->renderEntityId($entity) ?>" />
+ <span class="target_entity_id <?php print $this->getView()->renderEntityId($entity) ?>"><?php print $this->getView()->renderEntity($entity) ?></span> <input <?php if($isReadOnly):?>readonly="readonly" <?php endif ?> class="doctrine_admin_form_element_association" type="text" name="<?php print $this->property->getName() ?>" value="<?php print $this->getView()->renderEntityId($entity) ?>" />
 <?php endif ?>
 <?php endif ?>

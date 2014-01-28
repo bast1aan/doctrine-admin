@@ -20,12 +20,15 @@
 
 if ($this instanceof \Bast1aan\DoctrineAdmin\View\FormElementCollectionAssociation) :
 $view = $this->getView();
+$isReadOnly = $this->property->isReadOnly();
 ?>
 <table class="doctrine_admin_form_element_collection_association">
 <?php foreach($this->property as $remoteEntity): ?>
-	<tr><td><span class="target_entity_id <?php print $view->renderEntityId($remoteEntity) ?>"><?php print $view->renderEntity($remoteEntity) ?></span></td><td><input type="checkbox" name="<?php print $this->property->getName() ?>[]" value="<?php print $view->renderEntityId($remoteEntity) ?>" checked="checked" /></td></tr>
+	<tr><td><span class="target_entity_id <?php print $view->renderEntityId($remoteEntity) ?>"><?php print $view->renderEntity($remoteEntity) ?></span></td>
+		<?php if(!$isReadOnly): ?><td><input type="checkbox" name="<?php print $this->property->getName() ?>[]" value="<?php print $view->renderEntityId($remoteEntity) ?>" checked="checked" /></td><?php endif ?>
+	</tr>
 	
 <?php endforeach; ?>
 </table>
-			New: <input type="text" name="<?php print $this->property->getName() ?>[]" value="" />
+<?php if(!$isReadOnly): ?>			New: <input type="text" name="<?php print $this->property->getName() ?>[]" value="" /><?php endif ?>
 <?php endif; ?>

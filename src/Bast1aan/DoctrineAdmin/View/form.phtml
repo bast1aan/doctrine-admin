@@ -47,7 +47,11 @@ if ($property instanceof ScalarProperty && $property->isId()) {
 }
 
 ?>
-	<tr<?php if (count($trClass) > 0) print ' class="' . implode(' ', $trClass) . '"' ?>><th><?php echo $fieldName ?></th><td><?php if ($property->isNullable()): ?><input type="checkbox" name="<?php print Form::FIELD_NAME_IS_NULL ?>[<?php print $fieldName ?>]" value="true" <?php if ($property->isNull()):?>checked="checked" <?php endif ?>/><?php endif ?></td><td><?php echo $element->render() ?></td></tr>
+	<tr<?php if (count($trClass) > 0) print ' class="' . implode(' ', $trClass) . '"' ?>>
+		<th><?php echo $fieldName ?></th>
+		<td><?php if ($property->isNullable() && !($property instanceof AssociationProperty && $property->isReadOnly())): ?><input type="checkbox" name="<?php print Form::FIELD_NAME_IS_NULL ?>[<?php print $fieldName ?>]" value="true" <?php if ($property->isNull()):?>checked="checked" <?php endif ?>/><?php endif ?></td>
+		<td><?php echo $element->render() ?></td>
+	</tr>
 <?php endforeach ?>
 	</tbody>
 </table>
