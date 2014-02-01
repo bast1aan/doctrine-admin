@@ -20,7 +20,12 @@
 
 namespace Bast1aan\DoctrineAdmin {
 	class AssociationProperty implements Property {
-		
+
+		/**
+		 * @var bool
+		 */
+		private $readonly = false;
+
 		/**
 		 * @var Entity 
 		 */
@@ -112,19 +117,23 @@ namespace Bast1aan\DoctrineAdmin {
 		/**
 		 * @return Entity
 		 */
-		public function getEntity()	{
+		public function getEntity() {
 			return $this->entity;
 		}
 
 		/**
-		 * Determines if this association is read-only
-		 * For now, a association is readonly if it is the inverse side of the association.
+		 * Determines if this association is read-only, or mark this item as read-only.
+		 * For now, a association is always readonly if it is the inverse side of the association.
 		 * Doctrine won't save the changes in this case.
 		 *
+		 * @param boolean $readonly
 		 * @return boolean
 		 */
-		public function isReadOnly() {
-			return $this->entity->getClassMetaData()->isAssociationInverseSide($this->name);
+		public function isReadOnly($readonly = null) {
+			if ($readonly !== null) {
+				$this->readonly = $readonly;
+			}
+			return $this->readonly || $this->entity->getClassMetaData()->isAssociationInverseSide($this->name);
 		}
 
 	}
