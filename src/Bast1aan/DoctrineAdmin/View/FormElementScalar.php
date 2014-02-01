@@ -94,7 +94,8 @@ namespace Bast1aan\DoctrineAdmin\View {
 		}
 
 		public function isDisabled() {
-			if ($this->getProperty()->isAutoId())
+			$property = $this->getProperty();
+			if ($property->isAutoId() || $property->isId() && strlen($property->getValue()) > 0)
 				return true;
 			else
 				return false;
