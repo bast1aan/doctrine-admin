@@ -129,6 +129,10 @@ namespace Bast1aan\DoctrineAdmin {
 			return false;
 		}
 
+		public function isNull() {
+			return false;
+		}
+
 		/**
 		 * @return DoctrineCollection
 		 */
