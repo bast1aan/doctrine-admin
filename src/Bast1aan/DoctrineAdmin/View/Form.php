@@ -117,7 +117,7 @@ namespace Bast1aan\DoctrineAdmin\View {
 						$this->view->formatStringToScalarProperty($formData[$fieldName], $property);
 					} elseif ($property->getType() == Type::BOOLEAN) {
 						$this->view->formatStringToScalarProperty('', $property);
-					} elseif (!$property->isAutoId()) {
+					} elseif (!$property->isId()) {
 						$property->setValue(null);
 					}
 				} elseif ($property instanceof CollectionAssociationProperty) {
