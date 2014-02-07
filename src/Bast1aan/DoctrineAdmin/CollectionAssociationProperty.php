@@ -25,8 +25,8 @@ namespace Bast1aan\DoctrineAdmin {
 	use Doctrine\Common\Collections\Collection as DoctrineCollection;
 
 	/**
-	 * CollectionAssociationProperty represents a property of an @link Entity
-	 * containing an association with another entity concerning a tomany relation,
+	 * CollectionAssociationProperty represents a property of an @see Entity
+	 * containing an association with another entity concerning a to-many relation,
 	 * thus a collection of entities.
 	 */
 	class CollectionAssociationProperty extends AssociationProperty implements Iterator, Countable {
@@ -49,7 +49,7 @@ namespace Bast1aan\DoctrineAdmin {
 		
 		/**
 		 * Construct the CollectionAssociationProperty, with the field name, the
-		 * collection containing the associated entities, and the Entity this
+		 * collection containing the associated entities, and the @see Entity this
 		 * property belongs to
 		 *
 		 * @param string $name

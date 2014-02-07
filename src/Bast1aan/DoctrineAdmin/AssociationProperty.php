@@ -21,7 +21,7 @@
 namespace Bast1aan\DoctrineAdmin {
 
 	/**
-	 * AssociationProperty represents an property of an @link Entity
+	 * AssociationProperty represents a property of an @see Entity
 	 * containing an association with another entity.
 	 */
 	class AssociationProperty implements Property {
@@ -60,9 +60,9 @@ namespace Bast1aan\DoctrineAdmin {
 		protected $doctrineAdmin;
 		
 		/**
-		 * Construct an AssociationProperty with a field name, an value containing the
+		 * Construct an AssociationProperty with a field name, a value containing the
 		 * associated entity object, and the Entity this property belongs to
-		 * Be aware the value should be a bare entity object, NOT an instance of @link Entity
+		 * Be aware the value should be a bare entity object, NOT an instance of @see Entity
 		 *
 		 * @param string $name
 		 * @param object $value

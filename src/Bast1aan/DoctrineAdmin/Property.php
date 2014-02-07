@@ -21,7 +21,7 @@
 
 namespace Bast1aan\DoctrineAdmin {
 	/**
-	 * Property type, represents properties of an @link Entity
+	 * Property type, represents properties of an @see Entity
 	 */
 	interface Property {
 
@@ -32,7 +32,7 @@ namespace Bast1aan\DoctrineAdmin {
 		function getValue();
 
 		/**
-		 * Get the field name of the property where it is associated to with the @link Entity
+		 * Get the field name of the property where it is associated to with the @see Entity
 		 * @return string
 		 */
 		function getName();
