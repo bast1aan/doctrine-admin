@@ -19,9 +19,13 @@
  */
 
 namespace Bast1aan\DoctrineAdmin {
+	/**
+	 * Structure for custom configuration for @see DoctrineAdmin::setConfig()
+	 */
 	interface Config {
 		/**
 		 * Return DoctrineAdmin Entity implementation per entity given by native Entity.
+		 * 
 		 * @param object $name
 		 * @return Entity
 		 */
