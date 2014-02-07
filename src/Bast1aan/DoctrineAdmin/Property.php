@@ -20,11 +20,33 @@
 
 
 namespace Bast1aan\DoctrineAdmin {
+	/**
+	 * Property type, represents properties of an @link Entity
+	 */
 	interface Property {
-		
+
+		/**
+		 * Get the value of the property
+		 * @return mixed
+		 */
 		function getValue();
+
+		/**
+		 * Get the field name of the property where it is associated to with the @link Entity
+		 * @return string
+		 */
 		function getName();
+
+		/**
+		 * Determine if this property is null
+		 * @return boolean
+		 */
 		function isNull();
+
+		/**
+		 * Determine if this property is allowed to be set to null
+		 * @return boolean
+		 */
 		function isNullable();
 	}
 }
