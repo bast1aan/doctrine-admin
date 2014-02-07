@@ -19,6 +19,11 @@
  */
 
 namespace Bast1aan\DoctrineAdmin {
+
+	/**
+	 * AssociationProperty represents an property of an @link Entity
+	 * containing an association with another entity.
+	 */
 	class AssociationProperty implements Property {
 
 		/**
@@ -32,8 +37,8 @@ namespace Bast1aan\DoctrineAdmin {
 		private $entity;
 		
 		/**
-		 *
-		 * @var name of the association
+		 * name of the association
+		 * @var string
 		 */
 		private $name;
 		
@@ -55,7 +60,10 @@ namespace Bast1aan\DoctrineAdmin {
 		protected $doctrineAdmin;
 		
 		/**
-		 * 
+		 * Construct an AssociationProperty with a field name, an value containing the
+		 * associated entity object, and the Entity this property belongs to
+		 * Be aware the value should be a bare entity object, NOT an instance of @link Entity
+		 *
 		 * @param string $name
 		 * @param object $value
 		 * @param Entity $entity
@@ -69,13 +77,15 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 
 		/**
-		 * @return string
+		 * {@inheritdoc}
 		 */
 		public function getName() {
 			return $this->name;
 		}
 
 		/**
+		 * Return the value of the property, in this case an Entity containing
+		 * the association
 		 * @return Entity
 		 */
 		public function getValue() {
@@ -84,6 +94,9 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 		
 		/**
+		 * Set the value of the property with an entity.
+		 * Can be either object or instance of Entity
+		 *
 		 * @param Entity|object $value the entity
 		 */
 		public function setValue($value) {
@@ -92,16 +105,29 @@ namespace Bast1aan\DoctrineAdmin {
 			else
 				$this->value = $value;
 		}
-		
-		
+
+
+		/**
+		 * Get the (class) name of the entity of this association.
+		 *
+		 * @return string
+		 */
 		public function getEntityName() {
 			return $this->entityName;
 		}
-		
+
+		/**
+		 * {@inheritdoc}
+		 */
 		public function isNull() {
 			return $this->value === null;
 		}
-		
+
+		/**
+		 * Determine if this assocation is allowed to be set to null.
+		 *
+		 * @return boolean
+		 */
 		public function isNullable() {
 			$associationMapping = $this->entity->getClassMetaData()->getAssociationMapping($this->getName());
 			// single-associatons are default nullable, except when explicitly false.
@@ -115,6 +141,8 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 
 		/**
+		 * Return the entity this property is belonging to
+		 *
 		 * @return Entity
 		 */
 		public function getEntity() {
