@@ -20,6 +20,10 @@
 
 
 namespace Bast1aan\DoctrineAdmin {
-	use Exception as RootException;
-	class Exception extends RootException {}
+
+	/**
+	 * Exception thrown if something goes wrong
+	 * specificaly in DoctrineAdmin
+	 */
+	class Exception extends \Exception {}
 }
