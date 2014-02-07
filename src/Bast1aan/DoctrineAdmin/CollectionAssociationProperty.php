@@ -23,7 +23,12 @@ namespace Bast1aan\DoctrineAdmin {
 	use Doctrine\Common\Collections\ArrayCollection;
 	use Iterator;
 	use Doctrine\Common\Collections\Collection as DoctrineCollection;
-	
+
+	/**
+	 * CollectionAssociationProperty represents a property of an @link Entity
+	 * containing an association with another entity concerning a tomany relation,
+	 * thus a collection of entities.
+	 */
 	class CollectionAssociationProperty extends AssociationProperty implements Iterator, Countable {
 		
 		/**
@@ -43,7 +48,10 @@ namespace Bast1aan\DoctrineAdmin {
 		private $i;
 		
 		/**
-		 * 
+		 * Construct the CollectionAssociationProperty, with the field name, the
+		 * collection containing the associated entities, and the Entity this
+		 * property belongs to
+		 *
 		 * @param string $name
 		 * @param Collection|array $values
 		 * @param Entity $entity
@@ -61,22 +69,43 @@ namespace Bast1aan\DoctrineAdmin {
 			parent::__construct($name, count($values) > 0 ? $values[0] : null, $entity);
 		}
 
+		/**
+		 * Return the ammount of items in the collections
+		 *
+		 * @return int
+		 */
 		public function count() {
 			$this->targetEntities->count();
 		}
-		
+
+		/**
+		 * return the entity where the iterator currently points to
+		 *
+		 * @return Entity
+		 */
 		public function current() {
 			return Entity::factory($this->targetEntities->get($this->targetEntitiesKeys[$this->i]), $this->doctrineAdmin);
 		}
 
+		/**
+		 * Return the iterator pointer
+		 *
+		 * @return int
+		 */
 		public function key() {
 			return $this->i;
 		}
 
+		/**
+		 * Increment the iterator pointer
+		 */
 		public function next() {
 			++$this->i;
 		}
 
+		/**
+		 * Reset the iterator pointer
+		 */
 		public function rewind() {
 			$this->i = 0;
 		}
@@ -86,6 +115,8 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 		
 		/**
+		 * Add an entity to the collection
+		 *
 		 * @param Entity|object $entity
 		 */
 		public function add($entity) {
@@ -97,7 +128,10 @@ namespace Bast1aan\DoctrineAdmin {
 			$this->targetEntitiesKeys = $this->targetEntities->getKeys();
 			$this->rewind();
 		}
-		
+
+		/**
+		 * Clear the collection by removing all entities it contains
+		 */
 		public function clear() {
 			$this->targetEntities->clear();
 			$this->targetEntitiesKeys = $this->targetEntities->getKeys();
@@ -105,6 +139,8 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 		
 		/**
+		 * Remove an entity from the collection
+		 *
 		 * @param Entity|object $entity
 		 */
 		public function remove($entity) {
@@ -119,21 +155,35 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 		
 		/**
+		 * Return an array of entities the collection is containing
+		 *
 		 * @return object[]
 		 */
 		public function toArray() {
 			return $this->targetEntities->toArray();
 		}
-		
+
+		/**
+		 * An entity collection can never be null, so returns always false.
+		 *
+		 * @return boolean
+		 */
 		public function isNullable() {
 			return false;
 		}
 
+		/**
+		 * An entity collection can never be null, so returns always false.
+		 *
+		 * @return boolean
+		 */
 		public function isNull() {
 			return false;
 		}
 
 		/**
+		 * Return the internal collection of entities
+		 *
 		 * @return DoctrineCollection
 		 */
 		public function getTargetEntities() {
