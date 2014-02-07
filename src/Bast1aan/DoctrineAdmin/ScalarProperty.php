@@ -19,7 +19,11 @@
  */
 
 namespace Bast1aan\DoctrineAdmin {
-	use DateTime;
+
+	/**
+	 * AssociationProperty represents a property of an @see Entity
+	 * containing a scalar value
+	 */
 	class ScalarProperty implements Property {
 		
 		/**
@@ -57,7 +61,9 @@ namespace Bast1aan\DoctrineAdmin {
 		protected $doctrineAdmin;
 		
 		/**
-		 * 
+		 * Construct the ScalarProperty with the field name, the value and the
+		 * Entity it belongs to
+		 *
 		 * @param string $name
 		 * @param mixed $value
 		 * @param Entity $entity
@@ -71,44 +77,86 @@ namespace Bast1aan\DoctrineAdmin {
 			$this->length = $fieldMapping['length'];
 			$this->doctrineAdmin = $entity->getDoctrineAdmin();
 		}
-		
+
+		/**
+		 * {@inheritdoc}
+		 */
 		public function getName() {
 			return $this->name;
 		}
 
+		/**
+		 * {@inheritdoc}
+		 */
 		public function getValue() {
 			return $this->value;
 		}
-		
+
+		/**
+		 * Set the value of the property
+		 *
+		 * @param mixed $value
+		 */
 		public function setValue($value) {
 			$this->value = $value;
 		}
-		
+
+		/**
+		 * The type name of the mapped field. Can be one of Doctrine's mapping types
+		 * or a custom mapping type.
+		 *
+		 * @return string
+		 */
 		public function getType() {
 			return $this->type;
 		}
-		
+
+		/**
+		 * Return the (maximum) length of this property, if applicable
+		 *
+		 * @return int
+		 */
 		public function getLength() {
 			return $this->length;
 		}
-		
+
+		/**
+		 * {@inheritdoc}
+		 */
 		public function isNull() {
 			return $this->value === null;
 		}
-		
+
+		/**
+		 * {@inheritdoc}
+		 */
 		public function isNullable() {
 			return $this->entity->getClassMetaData()->isNullable($this->getName());
 		}
 
+		/**
+		 * Returns true if this property is (part of) the id (primary key) of the entity
+		 *
+		 * @return boolean
+		 */
 		public function isId() {
 			return in_array($this->getName(), $this->entity->getIdentifierNames());
 		}
 
+		/**
+		 * Returns true if this property is (part of) the id (primary key) of the entity
+		 * and the id is auto-generated. In this case the property is not supposed
+		 * to be set in any way
+		 *
+		 * @return boolean
+		 */
 		public function isAutoId() {
 			return $this->isId() && $this->entity->getClassMetaData()->usesIdGenerator();
 		}
 
 		/**
+		 * Get the entity where this property belongs to
+		 * 
 		 * @return Entity
 		 */
 		public function getEntity() {
