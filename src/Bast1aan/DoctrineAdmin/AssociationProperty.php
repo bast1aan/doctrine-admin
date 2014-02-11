@@ -101,9 +101,14 @@ namespace Bast1aan\DoctrineAdmin {
 		 */
 		public function setValue($value) {
 			if ($value instanceof Entity)
-				$this->value = $value->getOriginalEntity();
-			else
-				$this->value = $value;
+				$value = $value->getOriginalEntity();
+			if ($this->isInverseRelation()) {
+				if ($value == null && $this->value != null) {
+					// value will be set to null, while before it wasn't.
+					// make sure the owning side doesn't contain the entity of this property
+
+				}
+			}
 		}
 
 
@@ -124,12 +129,12 @@ namespace Bast1aan\DoctrineAdmin {
 		}
 
 		/**
-		 * Determine if this assocation is allowed to be set to null.
+		 * Determine if this association is allowed to be set to null.
 		 *
 		 * @return boolean
 		 */
 		public function isNullable() {
-			$associationMapping = $this->entity->getClassMetaData()->getAssociationMapping($this->getName());
+			$associationMapping = $this->getAssociationMapping();
 			// single-associatons are default nullable, except when explicitly false.
 			// See http://docs.doctrine-project.org/en/latest/reference/annotations-reference.html#annref-joincolumn
 			if (isset($associationMapping['joinColumns']) &&
@@ -161,7 +166,46 @@ namespace Bast1aan\DoctrineAdmin {
 			if ($readonly !== null) {
 				$this->readonly = $readonly;
 			}
-			return $this->readonly || $this->entity->getClassMetaData()->isAssociationInverseSide($this->name);
+			return $this->readonly || $this->isInverseRelation();
+		}
+
+		/**
+		 * Get the owning side of this property
+		 *
+		 * @return AssociationProperty
+		 */
+		private function getOwningSideProperty() {
+			$associationMapping = $this->getAssociationMapping();
+			if (isset($associationMapping['mappedBy'])) {
+
+			}
+		}
+
+		/**
+		 * Is this AssociationProperty coming from the inverse side?
+		 *
+		 * @return boolean
+		 */
+		private function isInverseRelation() {
+			return $this->getClassMetaData()->isAssociationInverseSide($this->name);
+		}
+
+		/**
+		 * Get the ClassMetadata from the entity
+		 *
+		 * @return \Doctrine\ORM\Mapping\ClassMetadata
+		 */
+		private function getClassMetaData() {
+			return $this->entity->getClassMetaData();
+		}
+
+		/**
+		 * Get the association mapping
+		 *
+		 * @return array
+		 */
+		private function getAssociationMapping() {
+			return $this->getClassMetaData()->getAssociationMapping($this->name);
 		}
 
 	}
