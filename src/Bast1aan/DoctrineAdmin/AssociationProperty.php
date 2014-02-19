@@ -102,11 +102,51 @@ namespace Bast1aan\DoctrineAdmin {
 		public function setValue($value) {
 			if ($value instanceof Entity)
 				$value = $value->getOriginalEntity();
+
 			if ($this->isInverseRelation()) {
 				if ($value == null && $this->value != null) {
 					// value will be set to null, while before it wasn't.
 					// make sure the owning side doesn't contain the entity of this property
+					$associationMapping = $this->getAssociationMapping();
+					$mappedByName = $associationMapping['mappedBy'];
+					$reverseEntity = $this->getValue();
+					$reverseProp = $reverseEntity->getColumn($mappedByName);
+					if ($reverseProp instanceof CollectionAssociationProperty) {
+						do {
+							$item = $reverseProp->current();
+							if ($item->getOriginalEntity() == $this->value) {
+								$item->delete();
+							}
+						} while ($reverseProp->next() || $reverseProp->valid());
+					} elseif ($reverseProp instanceof AssociationProperty) {
+						$reverseProp->setValue(null);
+					}
+					$reverseEntity->setColumn($reverseProp);
+				}
+			}
 
+			if ($this->value != $value) {
+				$this->value = $value;
+
+				if ($this->isInverseRelation() && $this->value != null) {
+					// value will be set to null, while before it wasn't.
+					// make sure the owning side doesn't contain the entity of this property
+					$associationMapping = $this->getAssociationMapping();
+					$mappedByName = $associationMapping['mappedBy'];
+					$reverseEntity = $this->getValue();
+					$reverseProp = $reverseEntity->getColumn($mappedByName);
+					if ($reverseProp instanceof CollectionAssociationProperty) {
+						do {
+							$item = $reverseProp->current();
+							if ($item->getOriginalEntity() == $this->value) {
+								$item->delete();
+							}
+						} while ($reverseProp->next() || $reverseProp->valid());
+						$reverseProp->add($this->value);
+					} elseif ($reverseProp instanceof AssociationProperty) {
+						$reverseProp->setValue(null);
+					}
+					$reverseEntity->setColumn($reverseProp);
 				}
 			}
 		}
@@ -166,7 +206,7 @@ namespace Bast1aan\DoctrineAdmin {
 			if ($readonly !== null) {
 				$this->readonly = $readonly;
 			}
-			return $this->readonly || $this->isInverseRelation();
+			return $this->readonly;
 		}
 
 		/**
