@@ -103,51 +103,73 @@ namespace Bast1aan\DoctrineAdmin {
 			if ($value instanceof Entity)
 				$value = $value->getOriginalEntity();
 
-			if ($this->isInverseRelation()) {
-				if ($value == null && $this->value != null) {
-					// value will be set to null, while before it wasn't.
-					// make sure the owning side doesn't contain the entity of this property
-					$associationMapping = $this->getAssociationMapping();
-					$mappedByName = $associationMapping['mappedBy'];
-					$reverseEntity = $this->getValue();
-					$reverseProp = $reverseEntity->getColumn($mappedByName);
-					if ($reverseProp instanceof CollectionAssociationProperty) {
-						do {
-							$item = $reverseProp->current();
-							if ($item->getOriginalEntity() == $this->value) {
-								$item->delete();
-							}
-						} while ($reverseProp->next() || $reverseProp->valid());
-					} elseif ($reverseProp instanceof AssociationProperty) {
-						$reverseProp->setValue(null);
-					}
-					$reverseEntity->setColumn($reverseProp);
-				}
+			if ($value == null && $this->value != null) {
+				// value will be set to null, while before it wasn't.
+				// make sure the owning side will be updated
+				$this->unlinkFromOwningSide($this->value);
 			}
 
 			if ($this->value != $value) {
 				$this->value = $value;
 
-				if ($this->isInverseRelation() && $this->value != null) {
-					// value will be set to null, while before it wasn't.
-					// make sure the owning side doesn't contain the entity of this property
-					$associationMapping = $this->getAssociationMapping();
-					$mappedByName = $associationMapping['mappedBy'];
-					$reverseEntity = $this->getValue();
-					$reverseProp = $reverseEntity->getColumn($mappedByName);
-					if ($reverseProp instanceof CollectionAssociationProperty) {
-						do {
-							$item = $reverseProp->current();
-							if ($item->getOriginalEntity() == $this->value) {
-								$item->delete();
-							}
-						} while ($reverseProp->next() || $reverseProp->valid());
-						$reverseProp->add($this->value);
-					} elseif ($reverseProp instanceof AssociationProperty) {
-						$reverseProp->setValue(null);
-					}
-					$reverseEntity->setColumn($reverseProp);
+				if ($this->value != null) {
+					// make sure the owning side wil be updated as well
+					$this->addToOwningSide($this->value);
 				}
+			}
+		}
+
+		/**
+		 * Unlink our entity from the $value if this is the owning side
+		 * of the relation.
+		 * To be used to save changes if we are at the inverse site of the
+		 * relation.
+		 *
+		 * @param object $value
+		 */
+		protected function unlinkFromOwningSide($value) {
+			if ($this->isInverseRelation()) {
+				$associationMapping = $this->getAssociationMapping();
+				$mappedByName = $associationMapping['mappedBy'];
+				$reverseEntity = Entity::factory($value, $this->doctrineAdmin);
+				$reverseProp = $reverseEntity->getColumn($mappedByName);
+				if ($reverseProp instanceof CollectionAssociationProperty) {
+					$reverseProp->remove($this->getEntity());
+				} elseif ($reverseProp instanceof AssociationProperty) {
+					$reverseProp->setValue(null);
+				}
+				$reverseEntity->setColumn($reverseProp);
+				$reverseEntity->save();
+			}
+		}
+
+		/**
+		 * Add our entity to the $value if this is the owning side
+		 * of the relation and doesn't already have it.
+		 * To be used to save changes if we are at the inverse site of the
+		 * relation.
+		 *
+		 * @param object $value
+		 */
+		protected function addToOwningSide($value) {
+			if ($this->isInverseRelation()) {
+
+				// value will be set to null, while before it wasn't.
+				// make sure the owning side doesn't contain the entity of this property
+				$associationMapping = $this->getAssociationMapping();
+				$mappedByName = $associationMapping['mappedBy'];
+				$reverseEntity = Entity::factory($value, $this->doctrineAdmin);
+				$reverseProp = $reverseEntity->getColumn($mappedByName);
+				if ($reverseProp instanceof CollectionAssociationProperty && !$reverseProp->contains($this->entity)) {
+						$reverseProp->add($this->entity);
+				} elseif ($reverseProp instanceof AssociationProperty) {
+					$reversePropEntity = $reverseProp->getValue();
+					if ($reversePropEntity == null || $reversePropEntity->getOriginalEntity() != $this->entity->getOriginalEntity()) {
+						$reverseProp->setValue($this->entity);
+					}
+				}
+				$reverseEntity->setColumn($reverseProp);
+				$reverseEntity->save();
 			}
 		}
 
@@ -207,18 +229,6 @@ namespace Bast1aan\DoctrineAdmin {
 				$this->readonly = $readonly;
 			}
 			return $this->readonly;
-		}
-
-		/**
-		 * Get the owning side of this property
-		 *
-		 * @return AssociationProperty
-		 */
-		private function getOwningSideProperty() {
-			$associationMapping = $this->getAssociationMapping();
-			if (isset($associationMapping['mappedBy'])) {
-
-			}
 		}
 
 		/**

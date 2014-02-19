@@ -121,10 +121,13 @@ namespace Bast1aan\DoctrineAdmin {
 		 */
 		public function add($entity) {
 			if ($entity instanceof Entity) {
-				$this->targetEntities->add($entity->getOriginalEntity());
-			} else {
-				$this->targetEntities->add($entity);
+				$entity = $entity->getOriginalEntity();
 			}
+
+			$this->targetEntities->add($entity);
+
+			$this->addToOwningSide($entity);
+
 			$this->targetEntitiesKeys = $this->targetEntities->getKeys();
 			$this->rewind();
 		}
@@ -133,6 +136,9 @@ namespace Bast1aan\DoctrineAdmin {
 		 * Clear the collection by removing all entities it contains
 		 */
 		public function clear() {
+			foreach($this->targetEntities as $targetEntity) {
+				$this->unlinkFromOwningSide($targetEntity);
+			}
 			$this->targetEntities->clear();
 			$this->targetEntitiesKeys = $this->targetEntities->getKeys();
 			$this->rewind();
@@ -144,14 +150,25 @@ namespace Bast1aan\DoctrineAdmin {
 		 * @param Entity|object $entity
 		 */
 		public function remove($entity) {
-			error_log('remove ' . implode('-' . $entity->getIdentifierValues()));
 			if ($entity instanceof Entity) {
-				$this->targetEntities->removeElement($entity->getOriginalEntity());
-			} else {
-				$this->targetEntities->removeElement($entity);
+				$entity = $entity->getOriginalEntity();
 			}
+			$this->unlinkFromOwningSide($entity);
+
+			$this->targetEntities->removeElement($entity);
+
 			$this->targetEntitiesKeys = $this->targetEntities->getKeys();
 			$this->rewind();
+		}
+
+		/**
+		 * Check if the collection contains an entity.
+		 *
+		 * @param Entity|object $entity
+		 * @return bool
+		 */
+		public function contains($entity) {
+			return $this->targetEntities->contains($entity instanceof Entity ? $entity->getOriginalEntity() : $entity);
 		}
 		
 		/**
@@ -188,6 +205,10 @@ namespace Bast1aan\DoctrineAdmin {
 		 */
 		public function getTargetEntities() {
 			return $this->targetEntities;
+		}
+
+		private function checkInverseSide() {
+
 		}
 
 	}
