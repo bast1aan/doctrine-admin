@@ -39,13 +39,13 @@ namespace Bast1aan\DoctrineAdmin {
 		/**
 		 * @var array
 		 */
-		private $collection;
+		protected $collection;
 		
 		/**
 		 *
 		 * @var DoctrineAdmin
 		 */
-		private $doctrineAdmin;
+		protected $doctrineAdmin;
 		
 		/**
 		 * @var integer
