@@ -45,7 +45,7 @@ $fieldNames = array_merge($collection->getFieldNames(), $collection->getAssociat
 	$propertyStr = $view->formatScalarPropertyToString($property);
 	if ($property->isId()): ?>
 		<td class="target_entity <?php print str_replace('\\', '-', get_class($entity->getOriginalEntity()));?>">
-		<span class="target_entity_id <?php print $view->renderEntityId($entity) ?>"><?php print $propertyStr ?></span>
+		<span class="target_entity_id <?php print urlencode($view->renderEntityId($entity)) ?>"><?php print $propertyStr ?></span>
 		</td>
 <?php else: ?><td><?php print $propertyStr ?></td><?php endif;
 elseif ($property instanceof CollectionAssociationProperty):?>
