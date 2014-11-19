@@ -203,10 +203,18 @@ namespace Bast1aan\DoctrineAdmin\View {
 		 */
 		public function renderEntityId(Entity $entity) {
 			$idValues = array();
-			// escape the - so it won't be recognized as a compound separator
-			foreach($entity->getIdentifierValues() as $idValue)
-				$idValues[] = str_replace('-', '--', $idValue);
-			
+
+			foreach($entity->getIdentifierValues() as $idValue) {
+				// escape the - so it won't be recognized as a compound separator
+				$idValue = str_replace('-', '--', $idValue);
+
+				// escape spaces to underscores, and escape existing underscores
+				$idValue = str_replace('_', '__', $idValue);
+				$idValue = str_replace(' ', '_', $idValue);
+
+				$idValues[] = $idValue;
+			}
+
 			return implode('-', $idValues);
 			
 		}
@@ -222,7 +230,10 @@ namespace Bast1aan\DoctrineAdmin\View {
 			$classMetaData = $em->getClassMetadata($entityName);
 			
 			$idNames = $classMetaData->getIdentifierFieldNames();
-			
+
+			$entityId = preg_replace('/(?<!_)(_)(?!_)/', ' ', $entityId);
+			$entityId = str_replace('__', '_', $entityId);
+
 			$idValues = explode('-', $entityId);
 			
 			if (count($idNames) != count($idValues)) {
