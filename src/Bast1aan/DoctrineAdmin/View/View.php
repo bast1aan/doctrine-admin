@@ -228,23 +228,30 @@ namespace Bast1aan\DoctrineAdmin\View {
 		public function getEntityById($entityName, $entityId) {
 			$em = $this->doctrineAdmin->getEntityManager();
 			$classMetaData = $em->getClassMetadata($entityName);
-			
+
 			$idNames = $classMetaData->getIdentifierFieldNames();
 
-			$entityId = preg_replace('/(?<!_)(_)(?!_)/', ' ', $entityId);
-			$entityId = str_replace('__', '_', $entityId);
+			$idValues = explode('-', $this->unEscapeId($entityId));
 
-			$idValues = explode('-', $entityId);
-			
 			if (count($idNames) != count($idValues)) {
 				throw new Exception('Primary key values don\'t match amount of primary key fields');
 			}
-			
+
 			$id = array();
 			for($i = 0; $i < count($idNames); ++$i)
 				$id[$idNames[$i]] = str_replace('--', '-', $idValues[$i]);
-			
+
 			return $this->doctrineAdmin->find($entityName, $id);
+		}
+
+		/**
+		 * @param string id
+		 * @return string
+		 */
+		protected function unEscapeId($id) {
+			$id = preg_replace('/(?<!_)(_)(?!_)/', ' ', $id);
+			$id = str_replace('__', '_', $id);
+			return $id;
 		}
 	}
 }
